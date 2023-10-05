@@ -2,3 +2,5 @@
 !*main.*
 *.exe
 !*.*
+*.pyc
+tests
