@@ -202,12 +202,13 @@ public:
     }
     
 };
-
+// Returns true if the game is over, false otherwise
 bool isGameOver(Deck decks[], Deck mainDeck) {
     
     return false;
 }
-
+// Returns -1 if invalid card rank
+// otherwise returns integer value of card
 short getCardValue(string cardRank) {
     if (cardRank == "a" || cardRank == "ace" || cardRank == "A" || cardRank == "Ace") {
         return 1;
