@@ -7,6 +7,18 @@ using namespace std;
 struct Card {
     string cardSuit;
     short cardValue;
+    string getValueAsString(){
+        if(this->cardValue == 1)
+            return "A";
+        else if(this->cardValue > 1 && this->cardValue < 11)
+            return to_string(this->cardValue);
+        else if(this->cardValue == 11)
+            return "J";
+        else if (this->cardValue==12)
+            return "Q";
+        else
+            return "K";
+    }
 };
 
 class Deck {
@@ -182,7 +194,7 @@ public:
         */
         string s = "";
         for (short i = 0; i < this->used; i++) {
-            string c = to_string(this->cards[i].cardValue) + this->cards[i].cardSuit; //Gets card values
+            string c = this->cards[i].getValueAsString() + this->cards[i].cardSuit; //Gets card values
             s = s + c; //adds to main string
             s = s + " "; 
         }
@@ -225,6 +237,7 @@ short getCardValue(string cardRank) {
     }
 }
 
+
 int main() {
    /*
    Go Fish is played with 2-6 players, and the goal is to collect the most sets of 4 cards.
@@ -236,6 +249,9 @@ int main() {
     short numOfPlayers; // Number of players
     cout << "Number of Players (2-6): ";
     cin >> numOfPlayers; 
+    if (numOfPlayers < 2 || numOfPlayers > 6) {
+        throw invalid_argument("Invalid number of players!");
+    }
     Deck playerDecks[numOfPlayers];
 
     //create decks for each player
@@ -248,6 +264,9 @@ int main() {
         for (short j = 0; j < 5; j++) {
             playerDecks[i].insert(*deck.del(deck.getCard(0)));
         }
+        cout << "Player " << i + 1 << "'s cards: ";
+        playerDecks[i].displayCards();
+        cout << endl;
     }
 
     short turn = 0;
@@ -268,8 +287,13 @@ int main() {
             while (!validPlayerIndex) {
                 cout << "Player " << turn + 1 << ", which player do you want to ask? Choose a player (1-" << numOfPlayers << "): ";
                 cin >> playerIndex;
+                if (cin.fail()) {
+                    cout << "Invalid player index!" << endl;
+                    cin.clear();
+                    cin.ignore();
+                    continue;
+                }
                 playerIndex--; // Corrected index
-                cin.ignore(); // Clear input buffer
                 if (playerIndex >= 0 && playerIndex < numOfPlayers && playerIndex != turn) {
                     validPlayerIndex = true;
                 }
@@ -280,21 +304,33 @@ int main() {
         }
         cout << "Player " << turn + 1 << ", which card do you want to ask for? Choose a card rank (Ace (A), 2-10, Jack (J), Queen (Q), King (K)): ";
         cin >> cardRank;
-
+        
         short integerCardRank = getCardValue(cardRank);
-        cout << "integerCardRank: " << integerCardRank << endl;
         if (integerCardRank == -1) {
             cout << "Invalid card rank!" << endl;
             continue;
         }
-        
+        bool hasCard = false;
+        for (short i = 0; i < currentPlayer.getUsed(); i++) {
+            if (currentPlayer.getCard(i).cardValue == integerCardRank) {
+                hasCard = true;
+                break;
+            }
+        }
+
+        if (!hasCard) {
+            cout << "You don't have any " << cardRank << "s in your hand!" << endl;
+            continue;
+        }
         bool found = false;
         for (short i = 0; i < currentPlayer.getUsed(); i++) {
             if (currentPlayer.getCard(i).cardValue == integerCardRank) {
                 found = true;
                 cout << "You already have that card!" << endl;
-                break;
+                cout << "You can't ask for a card you already have!" << endl;
+                continue;
             }
+            break;
         }
 
         if (!found) {
@@ -311,6 +347,7 @@ int main() {
                 currentPlayer.insert(*deck.del(deck.getCard(0)));
             }
         }
+        currentPlayer.displayCards();
         // Check for sets
         for (short i = 1; i <= 13; i++) {
             short count = 0;
