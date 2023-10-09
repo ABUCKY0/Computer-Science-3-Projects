@@ -5,11 +5,13 @@
 using namespace std;
 
 struct Card {
+    // A Struct that Represents a single Playing Card
     string cardSuit;
     short cardValue;
 };
 
 string cvtostr(short cardValue) {
+    // Converts a CardValue short to a string
     switch (cardValue) {
     case 1:
         return "Ace";
@@ -25,6 +27,7 @@ string cvtostr(short cardValue) {
 }
 
 short strtocv(string cardRank) {
+    // Converts a string to a CardValue short
     if (cardRank == "a" || cardRank == "ace" || cardRank == "A" || cardRank == "Ace") {
         return 1;
     }
@@ -50,21 +53,27 @@ short strtocv(string cardRank) {
 }
 
 class Deck {
+    /*
+    A Deck class with simple card management utilites
+    
+    Implements swapping, removing, adding, shuffling, and deleting, 
+    along with displaying of cards to the console. 
+ */
 private:
-    Card cards[52];
-    short used;
-    string cs;
-    short cv;
+    Card cards[52]; //an array of cards representing the deck
+    short used; //a short integer that holds the used space in the card deck
 
 public:
-    string suits[4] = { "H", "D", "C", "S" };
-    short size = 52;
+    short size = 52; 
 
     Deck() {
-        this->cv = 1;
-        this->cs = "H";
-        this->used = 0;
-
+        /*
+          Creates a new, filled deck
+        */
+        string suits[4] = { "H", "D", "C", "S" }; //the card suits
+        this->used = 0; //sets used to 0
+        
+        /*Fills in the deck with cards of different types*/
         for (string suit : suits) {
             for (short value = 1; value < 14; value++) {
                 this->cards[this->used].cardSuit = suit;
@@ -75,27 +84,41 @@ public:
     }
 
     Deck(short size) {
+        /*
+         Makes a new empty deck, useful for player decks
+         
+         Args:
+            size (short): deck size
+        */
         this->size = size;
         this->used = 0;
     }
 
     ~Deck() {};
 
-    Card getCard(short index) {
-        return this->cards[index];
-    }
-
     void swap(short index1, short index2) {
+        /*Swaps the card at index1 with the card at index2
+        Args:
+            index1 (short): first card to swap
+            index2 (short): second card to swap*/
         Card tmp = this->cards[index1];
         this->cards[index1] = this->cards[index2];
         this->cards[index2] = tmp;
     }
 
-    void shuffle() { // public face
+    void shuffle() {
+        /*
+        shuffles the deck by the amount of used space in the deck
+        */
         shuffle(this->used);
     }
 
     void shuffle(short numOfTimes) {
+        /*shuffles the deck a given number of times
+        
+        Args:
+            numOfTimes (short): number of times to replace a random card with another one
+        */
         short randomNum1, randomNum2;
         srand(time(0));
 
@@ -107,6 +130,14 @@ public:
     }
 
     bool insert(Card crd) {
+        /*inserts a card into the deck if it's not already present
+        
+        Args:
+            crd (Struct (card)): A Card Dataclass representing a card
+        
+        Returns:
+            Boolean True if completed, false if not.
+        */
         if (this->used < this->size) { // Check if there is space in the deck
             if (indexOf(crd) == -1) { // Check if the card already exists in the deck
                 this->cards[this->used] = crd;
@@ -118,6 +149,13 @@ public:
     }
 
     short indexOf(Card crd) {
+        /*returns the index of a given Card
+        
+        Args:
+            crd (Struct of Card): A Card Dataclass representing a card
+        Returns:
+            positive short representing index if found, otherwise returns -1
+        */
         for (short i = 0; i < this->used; i++) {
             if (this->cards[i].cardValue == crd.cardValue && this->cards[i].cardSuit == crd.cardSuit) {
                 return i;
@@ -127,10 +165,32 @@ public:
     }
 
     Card* getCards() {
+        /*returns the card array
+        
+        Returns:
+            Array of Cards
+        */
         return this->cards;
+    }
+    
+    Card getCard(short index) {
+        /*Returns the card at a given index
+        
+        Args:
+            index (short): the index of a card to get
+        Returns:
+            the Requested card
+        */
+        return this->cards[index];
     }
 
     Card* del(Card crd) {
+        /*Deletes and returns a given card
+        
+        Args:
+            crd (Card Struct): the card to delete
+        Returns:
+            A card Pointer*/
         short index = indexOf(crd);
         if (index != -1) {
             Card* c = &this->cards[index];
@@ -144,31 +204,39 @@ public:
     }
 
     void eraseDeck() {
+        /*Erases the Deck by removing each card*/
         while (this->used > 0) {
             this->del(this->cards[this->used - 1]);
         }
     }
 
-    short getValue() {
-        return this->cv;
-    }
-
-    string getSuit() {
-        return this->cs;
-    }
-
     short getUsed() {
+        /*returns the used space of the deck
+        
+        Returns:
+            the this->used short value
+        */
         return this->used;
     }
 
     void displayCards() {
+        /*Displays all cards and their values to console (cout)
+        */
         string s = "";
         for (short i = 0; i < this->used; i++) {
-            string c = cvtostr(this->cards[i].cardValue);
-            s = s + c;
-            s = s + " ";
+            string c = cvtostr(this->getCard(i).cardValue); //Gets card values
+            s = s + c; //adds to main string
+            s = s + " "; 
         }
         cout << s;
+    }
+    bool checkDeckForCardWithValue(short cardValue) {
+        for (short i = 0; i < this->used; i++) {
+            if (this->getCard(i).cardValue == cardValue) {
+                return true;
+            }
+        }
+        return false;
     }
 };
 
@@ -204,7 +272,7 @@ int main() {
             playerDecks[i].insert(*deck.del(deck.getCard(0)));
         }
     }
-
+    // The number of books (sets) each player has
     short playerBooks[numOfPlayers];
 
     //Display Cards as a temporary debugging sanity check
@@ -233,9 +301,12 @@ int main() {
         // Get player to fish and card to fish for
         bool validCardFished = false;
         short playerToFish = ((playerTurn + 1) % numOfPlayers) + 1;
+        //sets default player to fish to the next player if there are two players
         if (numOfPlayers == 2) {
             playerToFish = ((playerTurn + 1) % numOfPlayers == 0) ? 1 : 2;
         }
+
+        // Make Sure The Card You're Fishing (Asking) For is Valid
         while (!validCardFished) {
             if (numOfPlayers > 2) {
                 cout << "What player would you like to fish? (1-" << numOfPlayers << "): ";
@@ -257,7 +328,15 @@ int main() {
             string cardToFish;
             getline(cin, cardToFish);
 
-            // Take 
+            // make sure you have the card you're fishing for
+            while (!playerDecks[playerTurn].checkDeckForCardWithValue(strtocv(cardToFish))) {
+                cout << "You don't have that card" << endl;
+                cout << "What card would you like to fish for? (A (Ace), 2-10, J (Jack), K (King), Q (Queen)): ";
+                getline(cin, cardToFish);
+            }
+
+
+            // Finding and Taking the Card
             bool cardFound = false;
             for (short i = playerDecks[playerToFish - 1].getUsed() - 1; i >= 0; i--) {
                 if (playerDecks[playerToFish - 1].getCard(i).cardValue == strtocv(cardToFish)) {
@@ -296,11 +375,11 @@ int main() {
         }
 
         // Display Cards as a temporary debugging sanity check
-        for (short i = 0; i < numOfPlayers; i++) {
-            cout << "Player " << i + 1 << ": ";
+        /*for (short i = 0; i < numOfPlayers; i++) {
+            cout << "[DEBUG] Player " << i + 1 << ": ";
             playerDecks[i].displayCards();
             cout << endl;
-        }
+        }*/
 
         // Check if any player has 0 cards, and the main deck isn't empty
         bool allPlayersHaveCards = true;
@@ -317,6 +396,7 @@ int main() {
         }
 
         playerTurn = (playerTurn + 1) % numOfPlayers;
+        cout << "---------------------------------";
     }
 
     return 0;
