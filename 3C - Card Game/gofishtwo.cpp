@@ -232,8 +232,11 @@ int main() {
 
         // Get player to fish and card to fish for
         bool validCardFished = false;
+        short playerToFish = ((playerTurn + 1) % numOfPlayers) + 1;
+        if (numOfPlayers == 2) {
+            playerToFish = ((playerTurn + 1) % numOfPlayers == 0) ? 1 : 2;
+        }
         while (!validCardFished) {
-            short playerToFish = ((playerTurn + 1) % numOfPlayers)+1;
             if (numOfPlayers > 2) {
                 cout << "What player would you like to fish? (1-" << numOfPlayers << "): ";
                 cin >> playerToFish;
@@ -243,7 +246,7 @@ int main() {
 
             // Make Sure Player to Fish is Valid
             while (playerToFish < 1 || playerToFish > numOfPlayers) {
-                cout << "Invalid Player: " << playerToFish  << endl;
+                cout << "Invalid Player" << endl;
                 cout << "What player would you like to fish? (1-" << numOfPlayers << "): ";
                 cin >> playerToFish;
                 cout << endl;
@@ -252,41 +255,23 @@ int main() {
 
             cout << "What card would you like to fish for? (A (Ace), 2-10, J (Jack), K (King), Q (Queen)): ";
             string cardToFish;
-            cin >> cardToFish;
-            cout << endl;
-            cin.ignore();
+            getline(cin, cardToFish);
 
-            // Make Sure Card to Fish is Valid
-            while (strtocv(cardToFish) == -1) {
-                cout << "Invalid Card" << endl;
-                cout << "What card would you like to fish for? (A (Ace), 2-10, J (Jack), K (King), Q (Queen)): ";
-                cin >> cardToFish;
-                cout << endl;
-                cin.ignore();
-            }
-
-            // Check if Player has the card they are fishing for
+            // Take 
             bool cardFound = false;
-            for (short i = 0; i < playerDecks[playerTurn - 1].getUsed(); i++) {
-                if (playerDecks[playerTurn - 1].getCard(i).cardValue == strtocv(cardToFish)) {
-                    cardFound = true;
+            for (short i = playerDecks[playerToFish - 1].getUsed() - 1; i >= 0; i--) {
+                if (playerDecks[playerToFish - 1].getCard(i).cardValue == strtocv(cardToFish)) {
+                    Card* cardFished = playerDecks[playerToFish - 1].del(playerDecks[playerToFish - 1].getCard(i));
+                    if (cardFished != nullptr) {
+                        bool t = playerDecks[playerTurn].insert(*cardFished);
+                        validCardFished = true;
+                        cardFound = true;
+                    }
                     break;
                 }
             }
 
-            // If Player has the card they are fishing for, fish for it
-            if (cardFound) {
-                cout << "You fished for a " << cardToFish << " from Player " << playerToFish << endl;
-                for (short i = 0; i < playerDecks[playerToFish - 1].getUsed(); i++) {
-                    if (playerDecks[playerToFish - 1].getCard(i).cardValue == strtocv(cardToFish)) {
-                        playerDecks[playerTurn].insert(*playerDecks[playerToFish - 1].del(playerDecks[playerToFish - 1].getCard(i)));
-                        validCardFished = true;
-                        break;
-                    }
-                }
-            }
-            else {
-                cout << "You fished for a " << cardToFish << " from Player " << playerToFish << endl;
+            if (!cardFound) {
                 cout << "Go Fish!" << endl;
                 playerDecks[playerTurn].insert(*deck.del(deck.getCard(0)));
                 validCardFished = true;
@@ -297,7 +282,7 @@ int main() {
         for (short i = 0; i < playerDecks[playerTurn].getUsed(); i++) {
             short numOfCards = 0;
             for (short j = 0; j < playerDecks[playerTurn].getUsed(); j++) {
-                if (playerDecks[playerTurn].getCard(i).cardValue == playerDecks[playerTurn].getCard(j).cardValue) {
+                if (playerDecks[playerTurn].getCard(i). cardValue == playerDecks[playerTurn].getCard(j).cardValue) {
                     numOfCards++;
                 }
             }
