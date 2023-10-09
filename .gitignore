@@ -1,6 +1,9 @@
 *main*
+*gofish2*
+!*gofish2.*
 !*main.*
 *.exe
 !*.*
 *.pyc
 tests
+Unrelated-Files
