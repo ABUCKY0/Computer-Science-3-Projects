@@ -229,15 +229,31 @@ short getCardValue(string cardRank) {
                 return value;
             }
             else {
+                cout << "! Returning -1";
                 return -1;
             }
         }
         catch (exception e) {
+            cout << "Error parsing card rank! Returning -1";
             return -1;
+
         }
     }
 }
-
+// Function to check if a player has all 4 cards of a given rank
+bool hasFourOfAKind(Deck& player, int cardValue) {
+    int count = 0;
+    for (short i = 0; i < player.getUsed(); i++) {
+        if (player.getCard(i).cardValue == cardValue) {
+            count++;
+        }
+    }
+    return count == 4;
+}
+// Function to check if the game is over (i.e. if any player has all 4 cards of any rank)
+bool isGameOver(Deck& mainDeck) {
+    return mainDeck.getUsed() == 0;
+}
 
 int main() {
    /*
@@ -250,8 +266,10 @@ int main() {
     short numOfPlayers; // Number of players
     cout << "Number of Players (2-6): ";
     cin >> numOfPlayers; 
-    if (numOfPlayers < 2 || numOfPlayers > 6) {
-        throw invalid_argument("Invalid number of players!");
+
+    if (numOfPlayers < 2 || numOfPlayers > 6 || cin.fail()) {
+        cout << "Invalid number of players!" << endl;
+        return 0;
     }
     Deck playerDecks[numOfPlayers];
 
@@ -265,15 +283,16 @@ int main() {
         for (short j = 0; j < 5; j++) {
             playerDecks[i].insert(*deck.del(deck.getCard(0)));
         }
-        cout << "Player " << i + 1 << "'s cards: ";
+        cout << "Player " << i+1 << " ";
         playerDecks[i].displayCards();
         cout << endl;
     }
+    cout << endl;
 
-    short turn = 0;
+    short turn = 0; // Player turn
     while (!isGameOver(playerDecks, deck)) {
         Deck& currentPlayer = playerDecks[turn];
-        Deck& nextPlayer = playerDecks[(turn + 1) % numOfPlayers];
+        Deck& nextPlayer = playerDecks[(turn + 1) % numOfPlayers]; // Uses Modulo to make sure the player index isn't invalid
 
         // Display current player's hand
         cout << "Player " << turn + 1 << "'s turn" << endl;
@@ -288,7 +307,7 @@ int main() {
             while (!validPlayerIndex) {
                 cout << "Player " << turn + 1 << ", which player do you want to ask? Choose a player (1-" << numOfPlayers << "): ";
                 cin >> playerIndex;
-                if (cin.fail()) {
+                if (cin.fail()) { // Check if input is valid, loops until valid input is given
                     cout << "Invalid player index!" << endl;
                     cin.clear();
                     cin.ignore();
@@ -298,6 +317,9 @@ int main() {
                 if (playerIndex >= 0 && playerIndex < numOfPlayers && playerIndex != turn) {
                     validPlayerIndex = true;
                 }
+                else {
+                    cout << "Invalid player index!" << endl;
+                }
             }
         }
         else {
@@ -305,12 +327,13 @@ int main() {
         }
         cout << "Player " << turn + 1 << ", which card do you want to ask for? Choose a card rank (Ace (A), 2-10, Jack (J), Queen (Q), King (K)): ";
         cin >> cardRank;
-        
+        // Validity Check
         short integerCardRank = getCardValue(cardRank);
         if (integerCardRank == -1) {
             cout << "Invalid card rank!" << endl;
             continue;
         }
+        // Check if you have at least one of the cards you're asking for
         bool hasCard = false;
         for (short i = 0; i < currentPlayer.getUsed(); i++) {
             if (currentPlayer.getCard(i).cardValue == integerCardRank) {
@@ -318,29 +341,34 @@ int main() {
                 break;
             }
         }
-
+        // If you don't have the card, you can't ask for it
         if (!hasCard) {
             cout << "You don't have any " << cardRank << "s in your hand!" << endl;
             continue;
         }
+        
+        // Checks if you already have the card you're asking for
         bool found = false;
+        int count = 0; // Counter for number of cards with the same rank
         for (short i = 0; i < currentPlayer.getUsed(); i++) {
             if (currentPlayer.getCard(i).cardValue == integerCardRank) {
                 found = true;
-                cout << "You already have that card!" << endl;
-                cout << "You can't ask for a card you already have!" << endl;
+                count++;
+                if (count == 4) { // Player has all 4 cards
+                    cout << "You already have all " << cardRank << "s!" << endl;
+                }
                 continue;
             }
             break;
         }
-
+        
         if (!found) {
             found = false;
             for (short i = 0; i < nextPlayer.getUsed(); i++) {
                 if (nextPlayer.getCard(i).cardValue == integerCardRank) {
                     found = true;
                     currentPlayer.insert(*nextPlayer.del(nextPlayer.getCard(i)));
-                    break;
+                    i--; // Decrement i to account for the removed card
                 }
             }
             if (!found) {
