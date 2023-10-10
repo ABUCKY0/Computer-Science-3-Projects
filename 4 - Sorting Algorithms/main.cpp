@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <ctime>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 class Sort {
@@ -81,17 +84,6 @@ public:
             }
         }
     }
-
-    void selectionSort() {
-        for (short i = 0; i < this->used; i++) {
-            for (short y = 0; y < this->used-i-1; y++) {
-                //Indexes we are comparing are y and y+1
-                if (this->data[y] > this->data[y + 1]) {
-                    swap (y, y + 1);
-                }
-            }
-        }
-    }
     void display() {
         if (this->used == 0) {
             cout << "Array is empty." << endl; 
@@ -107,22 +99,27 @@ public:
     }
 };
 
-int main()
-{
-    Sort bubble(5);
+int main(){ 
+    srand(time(0)); // setting the seed 
+    short length = 10; // this is the number of values (N); a switch
     
-    bubble.insert(5);
-    bubble.insert(3);
-    bubble.insert(2);
-    bubble.insert(1);
-    bubble.insert(7);
+    Sort bubble(length); 
     
-    cout<<"Unsorted Data: " << endl;
-    bubble.display();
-    cout << endl;
-    bubble.insertionSort();
-    cout << endl;
-    cout << "Sorted Data: " << endl;
-    bubble.display();
-    return 0;
+    for(int i=0; i<length; i++){ // length amount of random values
+        bubble.insert(rand() % 100); 
+    }
+    
+    typedef chrono::high_resolution_clock Time; // small increments of time
+    typedef chrono::milliseconds ms; // miliseconds
+    typedef chrono::duration<float> fsec; // duration converted to float
+    
+    auto start = Time::now(); // start timer
+    bubble.bubbleSort(); // process (sorting)
+    auto stop = Time::now(); // stop the timer
+    fsec fs = stop - start; // converts the time
+    ms d = chrono::duration_cast<ms>(fs);  //casts to miliseconds
+    
+    cout << "Elapsed Time: " << fs.count() << " seconds" << endl; 
+    return 0; 
+
 }

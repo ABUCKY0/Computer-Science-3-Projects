@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-
+#include "../other utilities/colors.h"
 using namespace std;
 
 struct Card {
@@ -46,7 +46,6 @@ short strtocv(string cardRank) {
             return value;
         }
         else {
-            cout << "! Returning -1";
             return -1;
         }
     }
@@ -241,6 +240,20 @@ public:
 };
 
 int main() {
+    // Welcome Message and Rules
+    cout << "Welcome to Go Fish!" << endl;
+    cout << "Rules:" << endl;
+    cout << "1. Each player starts with 5 cards" << endl;
+    cout << "2. Each player takes turns asking other players for cards" << endl;
+    cout << "3. If the player has the card, they must give it to the player who asked" << endl;
+    cout << "4. If the player doesn't have the card, the player who asked must go fish" << endl;
+    cout << "5. If the player gets the card they asked for, they get another turn" << endl;
+    cout << "6. If the player gets a card they didn't ask for, the turn goes to the next player" << endl;  
+    cout << "7. If a player gets 4 cards of the same value, they must put them down" << endl;
+    cout << Colors::IYELLOW << "8. The game ends when all cards are gone from the main deck" << Colors::RESET << endl;
+
+
+
     //2-6 Players
     cout << "Number of Players (2-6): ";
     short numOfPlayers;
@@ -274,13 +287,6 @@ int main() {
     }
     // The number of books (sets) each player has
     short playerBooks[numOfPlayers];
-
-    //Display Cards as a temporary debugging sanity check
-    for (short i = 0; i < numOfPlayers; i++) {
-        cout << "Player " << i + 1 << ": ";
-        playerDecks[i].displayCards();
-        cout << endl;
-    }
 
 
     // Game Loop
@@ -349,11 +355,12 @@ int main() {
                     break;
                 }
             }
-
+            // If the card wasn't found, go fish
             if (!cardFound) {
                 cout << "Go Fish!" << endl;
                 playerDecks[playerTurn].insert(*deck.del(deck.getCard(0)));
                 validCardFished = true;
+                playerTurn = (playerTurn + 1) % numOfPlayers;
             }
         }
 
@@ -362,9 +369,10 @@ int main() {
             short numOfCards = 0;
             for (short j = 0; j < playerDecks[playerTurn].getUsed(); j++) {
                 if (playerDecks[playerTurn].getCard(i). cardValue == playerDecks[playerTurn].getCard(j).cardValue) {
-                    numOfCards++;
+                    numOfCards++; // Increment number of cards with the same value
                 }
             }
+            // Set Found
             if (numOfCards == 4) {
                 for (short j = 0; j < playerDecks[playerTurn].getUsed(); j++) {
                     if (playerDecks[playerTurn].getCard(i).cardValue == playerDecks[playerTurn].getCard(j).cardValue) {
@@ -374,30 +382,51 @@ int main() {
             }
         }
 
-        // Display Cards as a temporary debugging sanity check
-        /*for (short i = 0; i < numOfPlayers; i++) {
-            cout << "[DEBUG] Player " << i + 1 << ": ";
-            playerDecks[i].displayCards();
-            cout << endl;
-        }*/
-
         // Check if any player has 0 cards, and the main deck isn't empty
-        bool allPlayersHaveCards = true;
+        bool gameIsOver = false;
         for (short i = 0; i < numOfPlayers; i++) {
-            if (playerDecks[i].getUsed() == 0 && deck.getUsed() == 0) {
+            if (playerDecks[i].getUsed() == 0 && deck.getUsed() != 0) {
                 playerDecks[i].insert(*deck.del(deck.getCard(0)));
             }
             if (playerDecks[i].getUsed() == 0) {
-                allPlayersHaveCards = false;
+                gameIsOver = true;
+                break;
+            }
+            else if (deck.getUsed() <=0) {
+                gameIsOver = true;
+                break;
             }
         }
-        if (!allPlayersHaveCards) {
+        if (gameIsOver) {
             break;
         }
-
-        playerTurn = (playerTurn + 1) % numOfPlayers;
         cout << "---------------------------------";
     }
+    // Determine the winner
+    short maxBooks = 0;
+    short winner = -1;
+    for (short i = 0; i < numOfPlayers; i++) {
+        short books = 0;
+        for (short j = 0; j < playerDecks[i].getUsed(); j++) {
+            short numOfCards = 0;
+            for (short k = 0; k < playerDecks[i].getUsed(); k++) {
+                if (playerDecks[i].getCard(j).cardValue == playerDecks[i].getCard(k).cardValue) {
+                    numOfCards++;
+                }
+            }
+            if (numOfCards == 4) {
+                books++;
+            }
+        }
+        if (books > maxBooks) {
+            maxBooks = books;
+            winner = i;
+        }
+    }
 
+    // Print the winner
+    cout << endl << endl;
+    cout << Colors::BIRED << "GAME OVER" << Colors::RESET << endl;
+    cout << "Player " << winner + 1 << " wins!" << endl;
     return 0;
 }
