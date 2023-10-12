@@ -3,6 +3,7 @@
 !*gofish2.c*
 !*main.*
 *.exe
+.out
 !*.*
 *.pyc
 tests
