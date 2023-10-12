@@ -250,7 +250,7 @@ int main() {
     cout << "5. If the player gets the card they asked for, they get another turn" << endl;
     cout << "6. If the player gets a card they didn't ask for, the turn goes to the next player" << endl;  
     cout << "7. If a player gets 4 cards of the same value, they must put them down" << endl;
-    cout << Colors::IYELLOW << "8. The game ends when all cards are gone from the main deck" << Colors::RESET << endl;
+    cout << Colors::HI_YELLOW << "8. The game ends when all cards are gone from the main deck" << Colors::RESET << endl;
 
 
 
@@ -426,7 +426,7 @@ int main() {
 
     // Print the winner
     cout << endl << endl;
-    cout << Colors::BIRED << "GAME OVER" << Colors::RESET << endl;
+    cout << Colors::BOLD_HI_RED << "GAME OVER" << Colors::RESET << endl;
     cout << "Player " << winner + 1 << " wins!" << endl;
     return 0;
 }
