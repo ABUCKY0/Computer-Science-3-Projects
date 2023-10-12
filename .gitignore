@@ -1,8 +1,28 @@
+# Ignore Main Files that don't have an extension (executables)
 *main*
-!*main.*
+
+# Main Has an extension, it's probably code. Keep It
+!*main*.*
+
+# Ignore all files that don't have an extension
 !*.*
+
+# Ignore Python Compiled Bytecode
 *.pyc
+
+# Ignore The Tests Dir
 tests
+
+# Ignore the Unrelated Files Directory as it's unrelated
 Unrelated-Files
+
+# Ignore Executables
 *.exe
 *.out
+
+# Ignore env files
+.env
+.env.*
+
+# Ignore the virtual environment
+venv
