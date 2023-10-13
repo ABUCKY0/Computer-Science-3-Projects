@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include "../other utilities/colors.h"
+#include "../../other utilities/colors.h"
 using namespace std;
 
 struct Card {
