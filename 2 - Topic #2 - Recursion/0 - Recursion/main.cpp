@@ -9,9 +9,7 @@ short factorial(short num) {
         return 1;
     }
     else {
-        short value = num * factorial(num - 1);
-        cout << value << endl;
-        return value;
+        return num * factorial(num - 1);
     }
 }
 
@@ -24,13 +22,9 @@ short factorialtwo(short num) {
     }
 }
 
-void bomb() {
-    while (1) {
-    bomb();
-    }
-}
 
 int main() {
-    bomb();
+    short num = 99;
+    cout << "Factorial of " << num << " is " << factorial(num) << endl;
     return 0;
 }
