@@ -8,7 +8,7 @@
 !*.*
 
 # Ignore Python Compiled Bytecode
-*.pyc
+
 
 # Ignore The Tests Dir
 tests
@@ -16,9 +16,15 @@ tests
 # Ignore the Unrelated Files Directory as it's unrelated
 Unrelated-Files
 
-# Ignore Executables
+# Ignore Executables or Compiled files
 *.exe
 *.out
+*.pyc
+*.class
+*.o
+*.so
+*.dll
+
 
 # Ignore env files
 .env
