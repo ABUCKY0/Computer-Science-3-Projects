@@ -63,6 +63,8 @@ public:
         //when you're done, delete tmp;
         delete tmp;
     }
+
+    // 1: Bubble Sort
     void bubbleSort() {
         for(short i = 0; i < this->used; i++) {
             for(short y = 0; y < this->used-i-1; y++) {
@@ -73,17 +75,80 @@ public:
             }
         }
     }
-    
+    // 2: Insertion Sort
     void insertionSort() { // best case scenario O(n); worst case: O(n^2)
         for (short i = 0; i < this->used-1; i++) {
             short index = i;
             while(this->data[index+1] < this->data[index] && index>=0) {
-                this->display();
                 this->swap(index+1, index);
                 index--;
             }
         }
     }
+
+    // 3: Selection Sort
+    void selectionSort() {
+        for (short i = 0; i < this->used-1; i++) {
+            short min = i;
+            for (short y = i+1; y < this->used; y++) {
+                if (this->data[y] < this->data[min]) {
+                    min = y;
+                }
+            }
+            this->swap(i, min);
+        }
+    }
+
+    // 4: Merge Sort
+    void merge(int arr[], int left[], int right[], int left_size, int right_size) {
+        int i = 0, j = 0, k = 0;
+
+        while (i < left_size && j < right_size) {
+            if (left[i] <= right[j]) {
+                arr[k] = left[i];
+                i++;
+            }
+            else {
+                arr[k] = right[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < left_size) {
+            arr[k] = left[i];
+            i++;
+            k++;
+        }
+
+        while (j < right_size) {
+            arr[k] = right[j];
+            j++;
+            k++;
+        }
+    }
+
+    void mergeSort(int arr[], int left_index, int right_index) {
+        if (left_index < right_index) {
+            int middle_index = left_index + (right_index - left_index) / 2;
+
+            int left_half[middle_index - left_index + 1];
+            int right_half[right_index - middle_index];
+
+            for (int i = 0; i < middle_index - left_index + 1; i++) {
+                left_half[i] = arr[left_index + i];
+            }
+
+            for (int i = 0; i < right_index - middle_index; i++) {
+                right_half[i] = arr[middle_index + 1 + i];
+            }
+
+            mergeSort(left_half, 0, middle_index - left_index);
+            mergeSort(right_half, 0, right_index - middle_index - 1);
+            merge(arr, left_half, right_half, middle_index - left_index + 1, right_index - middle_index);
+        }
+    }
+
     void display() {
         if (this->used == 0) {
             cout << "Array is empty." << endl; 

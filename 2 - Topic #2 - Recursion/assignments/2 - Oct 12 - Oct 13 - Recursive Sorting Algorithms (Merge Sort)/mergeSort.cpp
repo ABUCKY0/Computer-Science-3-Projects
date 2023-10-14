@@ -1,55 +1,10 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
-
-class RecursiveFunctions {
-public:
-    // Function 1: Factorial
-    short factorial(short n) {
-        if (n == 0) {
-            return 1;
-        } else {
-            return n * factorial(n - 1);
-        }
-    }
-
-    // Function 2: Fibonacci sequence
-    short fibonacci(short n) {
-        if (n <= 1) {
-            return n;
-        } else {
-            return fibonacci(n - 1) + fibonacci(n - 2);
-        }
-    }
-    
-    // Function 3: Hailstone Sequence
-    short hailstone(short n) {
-        // Base case: n is 1
-        if (n == 1) {
-            return 1;
-        }
-        // Recursive case: n is even
-        else if (n % 2 == 0) {
-            cout << n << " ";
-            return hailstone(n / 2);
-        }
-        // Recursive case: n is odd
-        else {
-            cout << n << " ";
-            return hailstone(3 * n + 1);
-        }
-    }
-
-    // Function 4: Greatest common divisor (Euclid's algorithm)
-    short gcd(short a, short b) {
-        if (b == 0) {
-            return a;
-        } else {
-            return gcd(b, a % b);
-        }
-    }
-
-    // Function 5: Merge sort
+class MergeSort {
+    public:
+    //  Merge sort
     void merge(short arr[], short l, short m, short r) {
         short i, j, k;
         short n1 = m - l + 1;
@@ -111,10 +66,23 @@ public:
 };
 
 int main() {
-    RecursiveFunctions rf;
+    // Setting up array
     short arr[] = { 12, 11, 13, 5, 6, 7 };
     short arr_size = 6;
-    rf.mergeSort(arr, 0, arr_size - 1);
-    rf.printArray(arr, arr_size);
-    
+
+    // Setting up MergeSort Class
+    MergeSort ms;
+
+    // Printing array
+    cout << "Given array is \n";
+    ms.printArray(arr, arr_size);
+
+    // Sorting array
+    ms.mergeSort(arr, 0, arr_size - 1);
+
+    // Printing sorted array
+    cout << "\nSorted array is \n";
+    ms.printArray(arr, arr_size);
+
+    return 0;
 }
