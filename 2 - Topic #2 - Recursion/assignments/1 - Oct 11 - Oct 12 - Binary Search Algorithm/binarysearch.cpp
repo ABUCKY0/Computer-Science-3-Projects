@@ -22,7 +22,7 @@ bool binarySearch(short arr[], short num, short lo, short hi) {
 
 int main() {
     short arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    short num = 5;
+    short num = 0;
     cout << binarySearch(arr, num, 0, 8) << endl;
     return 0;
 }
