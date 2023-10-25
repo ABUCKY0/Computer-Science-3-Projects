@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "SLinkedlist",
+            "request": "launch",
+            "mainClass": "SLinkedlist",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
@@ -46,13 +53,6 @@
                     "ignoreFailures": true
                 }
             ]
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "Computer-Science-3-Projects_96420cd"
         }
     ]
 }
