@@ -47,7 +47,74 @@ public class SLinkedlist extends Node{
         }
         this.size++;
     }
+    public void addBefore(Integer data, Integer before) {
+        // if the node doesn't exist
+        if (this.search(before) == false) {
+            this.addFront(data);
+        }
+        // if the node exists
+        else {
+            Node n = this.createNode(data);
+            Node tmp = this.head;
+            while(tmp.next.data != before) { // stops right before it hits the "before data"
+                tmp = tmp.next;
+            }
+            n.next = tmp.next;
+            tmp.next = n;
 
+            this.size += 1;
+        }
+    }
+    public void addAfter(Integer data, Integer after) {
+        // if the node doesn't exist
+        if (this.search(after) == false) {
+            this.addFront(data);
+        }
+        // if the node exists
+        else {
+            Node n = this.createNode(data);
+            Node tmp = this.head;
+            while(tmp.data != after) { // stops right as it hits the "before data"
+                tmp = tmp.next;
+            }
+            n.next = tmp.next;
+            tmp.next = n;
+            this.size += 1;
+        }
+    }
+    public boolean search(Integer data) {
+        Node tmp = this.head;
+        while(tmp != null) {
+            if(tmp.data == data)
+                return true;
+            tmp = tmp.next;
+        }
+        return false;
+    }
+    public Node deleteFront() {
+        if(this.size == 0)
+            return null;
+        else {
+            Node deleted = this.head;
+            this.head = this.head.next;
+            this.size--;
+            return deleted;
+        }
+    }
+    public Node deleteBack() {
+        if(this.size == 0)
+            return null;
+        else {
+            Node tmp = this.head;
+            while(this.size >= 2 && tmp.next.next != null) {
+                tmp = tmp.next;
+            }
+            Node deleted = tmp.next;
+            tmp.next = null;
+            this.size--;
+            return deleted;
+        }
+    }
     // returns size of linked list
     public int getSize() {
         return this.size;
@@ -83,14 +150,21 @@ public class SLinkedlist extends Node{
     }
     public static void main(String[] args) {
         SLinkedlist sll = new SLinkedlist();
+        sll.addFront(1);
+        sll.addFront(2);
+        sll.addFront(3);
+        sll.addFront(4);
+        sll.addFront(5);
+        sll.addFront(6);
         sll.addFront(7);
-        sll.addFront(9);
         sll.addFront(8);
-        System.out.println("Adding 7, 9, 8 to Front:  " + sll);
-        sll.addBack(10);
-        System.out.println("Adding 10 to Back:  " + sll);
-        System.out.println("Size: " + sll.getSize());
+        sll.deleteFront();
+        sll.deleteBack();
 
+        System.out.println("Added: " + sll);
+        System.out.println("Size: " + sll.getSize());
+        /*
         System.out.println("Average: " + sll.average());
+        */
     }
 }
