@@ -1,3 +1,4 @@
+package SLinkedlist;
 
 public class Node
 {

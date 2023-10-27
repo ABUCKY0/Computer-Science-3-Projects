@@ -1,3 +1,4 @@
+package SLinkedlist;
 public class SLinkedlist extends Node{
     private Node head;
     private int size;
