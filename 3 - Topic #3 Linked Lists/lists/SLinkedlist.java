@@ -1,20 +1,21 @@
-package SLinkedlist;
-public class SLinkedlist extends Node{
-    private Node head;
+package lists;
+public class SLinkedlist extends Linkedlist{
+    public Node head;
     private int size;
     public SLinkedlist(Integer data) {
-        super(data);
         Node n = new Node(data);
         this.head = n;
         this.size = 1;
     }
     public SLinkedlist() {
-        super(null);
         this.size = 0;
     }
     public Node createNode(Integer data) {
         Node newNode = new Node(data);
         return newNode;
+    }
+    public void clear() {
+        this.head = null;
     }
     public void addFront(Integer data) {
         
@@ -50,7 +51,7 @@ public class SLinkedlist extends Node{
     }
     public void addBefore(Integer data, Integer before) {
         // if the node doesn't exist
-        if (this.search(before) == false) {
+        if (this.contains(before) == false) {
             this.addFront(data);
         }
         // if the node exists
@@ -68,7 +69,7 @@ public class SLinkedlist extends Node{
     }
     public void addAfter(Integer data, Integer after) {
         // if the node doesn't exist
-        if (this.search(after) == false) {
+        if (this.contains(after) == false) {
             this.addFront(data);
         }
         // if the node exists
@@ -83,7 +84,7 @@ public class SLinkedlist extends Node{
             this.size += 1;
         }
     }
-    public boolean search(Integer data) {
+    public boolean contains(Integer data) {
         Node tmp = this.head;
         while(tmp != null) {
             if(tmp.data == data)
@@ -115,6 +116,9 @@ public class SLinkedlist extends Node{
             this.size--;
             return deleted;
         }
+    }
+    public void incrementSize() {
+        size++;
     }
     // returns size of linked list
     public int getSize() {
