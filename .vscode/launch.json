@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "DLinkedlist",
+            "request": "launch",
+            "mainClass": "lists.DLinkedlist",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
+            "name": "SLinkedlist",
+            "request": "launch",
+            "mainClass": "SLinkedlist.SLinkedlist",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
             "name": "SLinkedlist",
             "request": "launch",
             "mainClass": "SLinkedlist",
