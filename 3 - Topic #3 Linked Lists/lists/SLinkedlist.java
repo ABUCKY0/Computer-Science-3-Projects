@@ -1,7 +1,7 @@
 package lists;
 public class SLinkedlist extends Linkedlist{
     public Node head;
-    private int size;
+    public int size;
     public SLinkedlist(Integer data) {
         Node n = new Node(data);
         this.head = n;
