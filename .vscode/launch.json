@@ -8,6 +8,13 @@
             "type": "java",
             "name": "DLinkedlist",
             "request": "launch",
+            "mainClass": "DLinkedlist",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
+            "name": "DLinkedlist",
+            "request": "launch",
             "mainClass": "lists.DLinkedlist",
             "projectName": "Computer-Science-3-Projects_96420cd"
         },

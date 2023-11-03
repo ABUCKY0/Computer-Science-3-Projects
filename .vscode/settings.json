@@ -3,7 +3,6 @@
         "*.cpp": "cpp"
     },
     "java.project.sourcePaths": [
-        "3 - Topic #3 Linked Lists",
-        "/workspaces/Computer-Science-3-Projects/3 - Topic #3 Linked Lists"
+        "3 - Topic #3 Linked Lists/lists"
     ],
 }

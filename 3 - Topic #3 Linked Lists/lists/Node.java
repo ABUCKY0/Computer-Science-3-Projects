@@ -1,4 +1,3 @@
-package lists;
 public class Node
 {
     public Integer data;
