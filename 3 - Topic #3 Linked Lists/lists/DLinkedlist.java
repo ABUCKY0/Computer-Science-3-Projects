@@ -1,4 +1,3 @@
-package lists;
 public class DLinkedlist extends SLinkedlist {
     private Node tail;
 

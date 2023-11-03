@@ -1,4 +1,3 @@
-package lists;
 public abstract class Linkedlist {
     protected Node head;
     protected int size;
