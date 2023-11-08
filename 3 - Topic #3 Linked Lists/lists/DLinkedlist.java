@@ -1,5 +1,5 @@
 public class DLinkedlist extends SLinkedlist {
-    private Node tail;
+    public Node tail;
 
     public DLinkedlist(Integer data) {
         super(data);
