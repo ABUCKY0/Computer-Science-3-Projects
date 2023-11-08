@@ -10,6 +10,15 @@ public class SLinkedlist extends Linkedlist{
     public SLinkedlist(){
         this.size = 0;
     }
+    public SLinkedlist (Node n) {
+        this.head = n;
+        this.size = 0;
+        Node tmp = this.head;
+        while (tmp.next != null) {
+            this.size += 1;
+            tmp = tmp.next;
+        }
+    }
     public void clear(){
         this.head = null;
     }
@@ -94,7 +103,7 @@ public class SLinkedlist extends Linkedlist{
         }
         
     }
-
+    // SL Addition 1
     public void addAt(Integer data, Integer pos) {
         if (pos > this.size) {
             this.addBack(data);
@@ -112,6 +121,74 @@ public class SLinkedlist extends Linkedlist{
 
         }
     }
+
+    // SL Addition 2 (Find from end)
+    public Node findFromEnd(Integer pos) {
+        Node tmp = this.head;
+        for (int i = 0; i < this.size - pos; i++) {
+            tmp = tmp.next;
+        }
+        return tmp;
+    }
+    // SL Addition 3 (Split in half)
+    public SLinkedlist splitInHalf() {
+        // Returns the second half of the list, the first linked list is still attached to this.head
+        Node tmp = this.head;
+        Node prev = null;
+        for (int i = 0; i < this.size / 2; i++) {
+            prev = tmp;
+            tmp = tmp.next;
+            if (tmp == this.head) {
+                throw new IllegalStateException("Cannot split a circular linked list using this method.");
+            }
+        }
+    
+        prev.next = null;
+        return new SLinkedlist(tmp);
+    }
+    // SL Addition 4 (Find mode)
+    public Integer findMode() {
+        if (this.head == null) {
+            return null; // If the list is empty, return null
+        }
+    
+        Node current = this.head;
+        int maxCount = 0;
+        Integer mode = null;
+    
+        while (current != null) {
+            int count = 0;
+            Node temp = this.head;
+            while (temp != null) {
+                if (temp.data.equals(current.data)) {
+                    count++;
+                }
+                temp = temp.next;
+            }
+    
+            if (count > maxCount) {
+                maxCount = count;
+                mode = current.data;
+            }
+    
+            current = current.next;
+        }
+    
+        return mode;
+    }
+    // SL Addition 5 (Remove duplicates)
+    public void removeDuplicates() {
+        Node current = this.head;
+        while (current != null) {
+            Node temp = current;
+            while (temp != null && temp.data.equals(current.data)) {
+                temp = temp.next;
+            }
+            current.next = temp;
+            current = current.next;
+        }
+    }
+
     public Node deleteFront(){
         if(this.size == 0)
             return null;
@@ -171,20 +248,27 @@ public class SLinkedlist extends Linkedlist{
         sll.addFront(8);
 
         // Singly Linked List Addition 1
-        sll.addAt(8, 3);
+        sll.addAt(5, 3);
+        sll.addAt(5, 3);
+
+
+        System.out.println("Singly Linked List: "+ sll);
+        System.out.println();
 
         // Singly Linked List Addition 2
-        //sll.findFromEnd(3); // NOT IMPLEMENTED
+        System.out.println("Three from end: " + sll.findFromEnd(3)); 
 
         // Singly Linked List Addition 3
-        //sll.splitInHalf(); // NOT IMPLEMENTED
-
+        SLinkedlist sltwo = sll.splitInHalf(); 
+        System.out.println("First half: " + sll);
+        System.out.println("Second half: " + sltwo);
         // Singly Linked List Addition 4
-        //sll.findMode(); // NOT IMPLEMENTED
+        System.out.println("\nMode:" + sll.findMode() + "\n"); 
 
         // Singly Linked List Addition 5
-        //.removeDuplicates(); // NOT IMPLEMENTED
         System.out.println("Singly Linked List: "+ sll);
+        sll.removeDuplicates();
+        System.out.println("After removing duplicates Singly Linked List: "+ sll);
         System.out.println("Deleted Front: "+ sll.deleteFront());
         System.out.println("\nSingly Linked List: "+ sll);
         System.out.println("Deleted Back: "+ sll.deleteBack());
