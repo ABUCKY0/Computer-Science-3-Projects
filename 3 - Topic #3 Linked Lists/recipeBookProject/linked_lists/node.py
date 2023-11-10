@@ -1,4 +1,3 @@
-"""The Node Class"""
 class Node:
     """The indiviual Node element for the Linked lists
     """
