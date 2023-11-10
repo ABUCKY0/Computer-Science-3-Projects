@@ -21,6 +21,7 @@ public class SLinkedlist extends Linkedlist{
     }
     public void clear(){
         this.head = null;
+        this.size = 0;
     }
     public Node createNode(Integer data){
         Node newNode = new Node(data);

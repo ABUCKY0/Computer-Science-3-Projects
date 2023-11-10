@@ -2,7 +2,7 @@
 
 """
 from abc import ABC, abstractmethod
-from node import Node
+from linked_lists.node import Node
 class LinkedList(ABC):
     """The Linked List Abstract Class
 
@@ -63,6 +63,7 @@ class LinkedList(ABC):
         Returns:
             Node: Deleted Node
         """
+    @abstractmethod
     def contains(self, data: int):
         """Check if the linked list contains the data
 
@@ -72,13 +73,32 @@ class LinkedList(ABC):
         Returns:
             bool: True if found, else False
         """
+    @abstractmethod
     def get_size(self):
         """Returns self.size
         
         Returns:
             int: self.size
         """
+    @abstractmethod
     def clear(self):
         """Clears the Linked List
         """
-        
+    @abstractmethod
+    def convert_to_list(self):
+        """Converts the Linked List to a list
+
+        Returns:
+            list: The Linked List as a list
+        """
+    @abstractmethod
+    def delete_at(self, index: int):
+        """Deletes the item at the specified index
+
+        Args:
+            index (int): the index of the item to remove
+            
+        Returns:
+            recipe: the deleted recipe
+        """
+    
