@@ -32,3 +32,5 @@ Unrelated-Files
 
 # Ignore the virtual environment
 venv
+
+recipes.bin

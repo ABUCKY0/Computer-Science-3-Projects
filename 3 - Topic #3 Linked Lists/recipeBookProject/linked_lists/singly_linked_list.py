@@ -1,3 +1,5 @@
+"""Singly Linked List Class
+"""
 from .node import Node
 from .linked_list import LinkedList
 
@@ -158,15 +160,39 @@ class SinglyLinkedList(LinkedList):
         Returns:
             recipe: the deleted recipe
         """
+        if self.head is None:
+            return None
+        if index == 0:
+            deleted = self.head
+            self.head = self.head.next
+            self.size -= 1
+            return deleted
+        if index >= self.size:
+            return None
+        current = self.head
+        count = 0
+        while count < index - 1 and current is not None:
+            current = current.next
+            count += 1
+        if current is None:
+            return None
+        deleted = current.next
+        current.next = current.next.next
+        self.size -= 1
+        return deleted
     def __repr__(self):
         """returns the string representation of the class
 
         Returns:
             str: the string representation of the class
         """
+        i = 0
         tmp = self.head
         s = ""
         while tmp is not None:
-            s += str(tmp.data) + " ->"
+            s += "Recipe at index " + str(i) + ": "
+            s += str(tmp.data) + "\n"
             tmp = tmp.next
+            i+=1
         return s
+    

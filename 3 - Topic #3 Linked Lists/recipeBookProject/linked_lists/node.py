@@ -1,3 +1,4 @@
+"""Contains the node class"""
 class Node:
     """The indiviual Node element for the Linked lists
     """
