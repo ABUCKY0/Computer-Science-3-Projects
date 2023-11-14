@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Stack_NC",
+            "request": "launch",
+            "mainClass": "Stack_NC",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
             "name": "Stack",
             "request": "launch",
             "mainClass": "Stack",
