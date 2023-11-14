@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Stack",
+            "request": "launch",
+            "mainClass": "Stack",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
             "name": "CSLinkedlist",
             "request": "launch",
             "mainClass": "CSLinkedlist",
@@ -87,7 +94,7 @@
             "type": "python",
             "request": "launch",
             "module": "recipeBookProject.linked_lists.singly_linked_list",
-            "cwd": "${workspaceFolder}/3 - Topic #3 Linked Lists/recipeBookProject",
+            "cwd": "${workspaceFolder}/3 - Topic #3 Linked Lists/recipeBookProject"
         }
     ]
 }
