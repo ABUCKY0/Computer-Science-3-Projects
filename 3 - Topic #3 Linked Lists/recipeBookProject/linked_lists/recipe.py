@@ -15,20 +15,19 @@ class Recipe:
     servings: int # number of servings
     serving_size: float # in cups
     def __repr__(self):
-        print("Running Recipe.__repr__()")
         string = " Name: " + str(self.name) + "\n"
         string += " Description: " + str(self.description) + "\n"
         ingredients = ""
         x = 0
         for i in self.ingredients:
             x += 1
-            ingredients += "    " + str(x) + ": " + i
+            ingredients += "    " + str(x) + ": " + i + "\n"
         string += " Ingredients: " + ingredients + "\n"
         directions = ""
         x = 0
         for i in self.directions:
             x += 1
-            directions += str(x) + ": " + i
+            directions += str(x) + ": " + i + "\n"
         string += " Directions: " + str(directions) + "\n"
         string += " Bake Time: " + str(self.bake_time) + "\n"
         string += " Servings: " + str(self.servings) + "\n"

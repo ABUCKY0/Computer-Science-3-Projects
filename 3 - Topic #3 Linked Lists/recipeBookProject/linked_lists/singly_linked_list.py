@@ -190,7 +190,7 @@ class SinglyLinkedList(LinkedList):
         tmp = self.head
         s = ""
         while tmp is not None:
-            s += "Recipe at index " + str(i) + ": "
+            s += "\033[1m\033[31m" + "Recipe at index " + str(i) + ": "+"\033[0m"
             s += str(tmp.data) + "\n"
             tmp = tmp.next
             i+=1
