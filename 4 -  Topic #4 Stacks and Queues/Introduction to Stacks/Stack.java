@@ -30,7 +30,10 @@ public class Stack extends SLinkedlist{
 
    public void push(Integer data){// Adds an item to the top of the linkedlist
         Node tmp = this.top;
-        this.top = 
+        Node newNode = new Node(data);
+
+        this.top = newNode;
+        top.next = tmp;
       
 
    }
