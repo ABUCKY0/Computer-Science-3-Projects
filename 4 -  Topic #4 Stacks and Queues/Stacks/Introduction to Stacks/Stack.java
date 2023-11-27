@@ -47,7 +47,9 @@ public class Stack extends SLinkedlist{
            return null;
 
        else{
-
+            Node tmp = this.top;
+            this.top = this.top.next;
+            return tmp;
           
 
        }
@@ -59,7 +61,7 @@ public class Stack extends SLinkedlist{
   
 
    public Integer peek(){// prints out the top data
-
+        return this.top.data;
       
 
    }
