@@ -1,5 +1,5 @@
 import java.util.NoSuchElementException;
-
+import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 public class RingBuffer {
 
     private int capacity;
@@ -46,19 +46,19 @@ public class RingBuffer {
     public double dequeue() {
 
         // implement dequeue method
-
+        throw new NotImplementedException();
     }
 
     public double peek() {
 
         // implement peek method
-
+        throw new NotImplementedException();
     }
 
     public String toString() {
 
         // implement toString method
-
+        throw new NotImplementedException();
     }
 
 }
