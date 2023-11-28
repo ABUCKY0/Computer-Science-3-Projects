@@ -7,4 +7,5 @@
         "3 - Topic #3 Linked Lists/lists",
         "4 -  Topic #4 Stacks and Queues/Stacks but no it's an array"
     ],
+    "markdown.validate.enabled": false
 }
