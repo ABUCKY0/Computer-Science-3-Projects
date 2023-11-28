@@ -3,9 +3,8 @@
         "*.cpp": "cpp"
     },
     "java.project.sourcePaths": [
-        "4 -  Topic #4 Stacks and Queues/Introduction to Stacks",
         "3 - Topic #3 Linked Lists/lists",
-        "4 -  Topic #4 Stacks and Queues/Stacks but no it's an array"
+        "4 -  Topic #4 Stacks and Queues/Guitar Hero Lab"
     ],
     "markdown.validate.enabled": false
 }
