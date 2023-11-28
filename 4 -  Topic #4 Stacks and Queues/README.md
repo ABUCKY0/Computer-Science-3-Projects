@@ -1,10 +1,11 @@
 # Stacks and Queues
 
 ## Stacks
+
 Stacks follow LIFO (First in, Last out)
 
-
 ## Queues
+
 Queues follow FIFO (First in, First out)
 
 |     Name    |  Description   | Efficency | Equivalent Linked List Methods  |
