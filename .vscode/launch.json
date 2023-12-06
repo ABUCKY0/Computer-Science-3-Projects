@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "StdAudio",
+            "request": "launch",
+            "mainClass": "StdAudio",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
+            "name": "RingBufferTester",
+            "request": "launch",
+            "mainClass": "RingBufferTester",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
+            "name": "Doubly_LL_Queue",
+            "request": "launch",
+            "mainClass": "Doubly_LL_Queue",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
             "name": "GuitarHeroLite",
             "request": "launch",
             "mainClass": "GuitarHeroLite",

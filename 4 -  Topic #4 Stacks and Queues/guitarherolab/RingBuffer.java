@@ -19,6 +19,9 @@ public class RingBuffer {
     public int size() {
         return this.size;
     }
+    public int capacity() {
+        return this.capacity;
+    }
 
     public boolean isEmpty() {
         return this.size == 0;
