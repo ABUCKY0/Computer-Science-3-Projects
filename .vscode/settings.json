@@ -3,8 +3,9 @@
         "*.cpp": "cpp"
     },
     "java.project.sourcePaths": [
+        "4 -  Topic #4 Stacks and Queues/Guitar Hero Lab",
         "3 - Topic #3 Linked Lists/lists",
-        "4 -  Topic #4 Stacks and Queues/Guitar Hero Lab"
+        "4 -  Topic #4 Stacks and Queues/Queues/Introduction to Queues"
     ],
     "markdown.validate.enabled": false
 }
