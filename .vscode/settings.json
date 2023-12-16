@@ -3,9 +3,10 @@
         "*.cpp": "cpp"
     },
     "java.project.sourcePaths": [
+        "4 -  Topic #4 Stacks and Queues/Queues/Introduction to Queues",
         "4 -  Topic #4 Stacks and Queues/Guitar Hero Lab",
         "3 - Topic #3 Linked Lists/lists",
-        "4 -  Topic #4 Stacks and Queues/Queues/Introduction to Queues"
+        "Semester 1/4 -  Topic #4 Stacks and Queues/Guitar Hero Lab (Final)"
     ],
     "markdown.validate.enabled": false
 }
