@@ -116,7 +116,7 @@ public class SLinkedlist extends Linkedlist {
      */
     public void addBack(Integer data) {
         Node newNode = this.createNode(data);
-        if (this.size == 0) {
+        if (this.size == 0 || this.head == null) {
             this.head = newNode;
         } else {
             Node tmp = this.head;
