@@ -10,8 +10,6 @@ My Semester final project is divided into the following filesystem
 
 
 
-
-
 (1) Data Structures 
 --------------------
  -> Array/2D Array
@@ -31,3 +29,8 @@ Example
 
 
 
+| Files:  | Description                                         |
+| ------- | --------------------------------------------------- |
+| *.out   | Compiled Binaries, i.e. EXE files but for linux     |
+| *.md    | Markdown, essentally just for my notes and etc      |
+| *.bin   | Binary Files, Only used for the recipe book project |

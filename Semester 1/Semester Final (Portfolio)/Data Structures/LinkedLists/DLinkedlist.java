@@ -28,6 +28,7 @@ public class DLinkedlist extends SLinkedlist {
      */
     public DLinkedlist() {
         super();
+        this.tail = null;
     }
 
     /**
@@ -37,15 +38,17 @@ public class DLinkedlist extends SLinkedlist {
      *
      * @param data The data for the new node.
      * @example
-     * DLinkedlist dll = new DLinkedlist();
-     * dll.addFront(10);
-     * dll.addFront(5);
-     * System.out.println(dll); // Output: 5 <-> 10
+     *          DLinkedlist dll = new DLinkedlist();
+     *          dll.addFront(10);
+     *          dll.addFront(5);
+     *          System.out.println(dll); // Output: 5 <-> 10
      */
     @Override
     public void addFront(Integer data) {
         super.addFront(data);
-        this.head.next.prev = this.head;
+        if (this.head.next != null) {
+            this.head.next.prev = this.head;
+        }
     }
 
     /**
@@ -54,16 +57,23 @@ public class DLinkedlist extends SLinkedlist {
      *
      * @param data The data for the new node.
      * @example
-     * DLinkedlist dll = new DLinkedlist();
-     * dll.addBack(10);
-     * dll.addBack(5);
-     * System.out.println(dll); // Output: 10 <-> 5
+     *          DLinkedlist dll = new DLinkedlist();
+     *          dll.addBack(10);
+     *          dll.addBack(5);
+     *          System.out.println(dll); // Output: 10 <-> 5
      */
     public void addBack(Integer data) {
         Node newNode = this.createNode(data);
-        this.tail.next = newNode;
-        newNode.prev = this.tail;
-        this.tail = newNode;
+        if (this.size == 0) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            if (this.tail != null) {
+                this.tail.next = newNode;
+                newNode.prev = this.tail;
+            }
+            this.tail = newNode;
+        }
         this.size += 1;
     }
 
@@ -75,11 +85,11 @@ public class DLinkedlist extends SLinkedlist {
      * @param data  The data for the new node.
      * @param after The data of the node after which the new node should be added.
      * @example
-     * DLinkedlist dll = new DLinkedlist();
-     * dll.addBack(10);
-     * dll.addBack(20);
-     * dll.addAfter(15, 10);
-     * System.out.println(dll); // Output: 10 <-> 15 <-> 20
+     *          DLinkedlist dll = new DLinkedlist();
+     *          dll.addBack(10);
+     *          dll.addBack(20);
+     *          dll.addAfter(15, 10);
+     *          System.out.println(dll); // Output: 10 <-> 15 <-> 20
      */
     @Override
     public void addAfter(Integer data, Integer after) {
@@ -107,11 +117,11 @@ public class DLinkedlist extends SLinkedlist {
      * @param data   The data for the new node.
      * @param before The data of the node before which the new node should be added.
      * @example
-     * DLinkedlist dll = new DLinkedlist();
-     * dll.addBack(10);
-     * dll.addBack(20);
-     * dll.addBefore(15, 20);
-     * System.out.println(dll); // Output: 10 <-> 15 <-> 20
+     *          DLinkedlist dll = new DLinkedlist();
+     *          dll.addBack(10);
+     *          dll.addBack(20);
+     *          dll.addBefore(15, 20);
+     *          System.out.println(dll); // Output: 10 <-> 15 <-> 20
      */
     @Override
     public void addBefore(Integer data, Integer before) {
@@ -138,11 +148,11 @@ public class DLinkedlist extends SLinkedlist {
      *
      * @return The deleted front node.
      * @example
-     * DLinkedlist dll = new DLinkedlist();
-     * dll.addFront(10);
-     * dll.addFront(5);
-     * dll.deleteFront();
-     * System.out.println(dll); // Output: 10
+     *          DLinkedlist dll = new DLinkedlist();
+     *          dll.addFront(10);
+     *          dll.addFront(5);
+     *          dll.deleteFront();
+     *          System.out.println(dll); // Output: 10
      */
     @Override
     public Node deleteFront() {
@@ -160,11 +170,11 @@ public class DLinkedlist extends SLinkedlist {
      * @param data The data to delete.
      * @return The deleted node.
      * @example
-     * DLinkedlist dll = new DLinkedlist();
-     * dll.addBack(10);
-     * dll.addBack(20);
-     * dll.delete(10);
-     * System.out.println(dll); // Output: 20
+     *          DLinkedlist dll = new DLinkedlist();
+     *          dll.addBack(10);
+     *          dll.addBack(20);
+     *          dll.delete(10);
+     *          System.out.println(dll); // Output: 20
      */
     public Node delete(Integer data) {
         if (this.contains(data)) {
@@ -187,10 +197,10 @@ public class DLinkedlist extends SLinkedlist {
      *
      * @return The string representation of the doubly linked list.
      * @example
-     * DLinkedlist dll = new DLinkedlist();
-     * dll.addBack(10);
-     * dll.addBack(20);
-     * System.out.println(dll); // Output: 10 <-> 20
+     *          DLinkedlist dll = new DLinkedlist();
+     *          dll.addBack(10);
+     *          dll.addBack(20);
+     *          System.out.println(dll); // Output: 10 <-> 20
      */
     @Override
     public String toString() {

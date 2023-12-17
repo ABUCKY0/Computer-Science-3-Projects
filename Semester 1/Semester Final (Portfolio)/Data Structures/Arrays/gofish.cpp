@@ -1,30 +1,25 @@
-/**
- * @file card_game.cpp
- * @brief Implementation of a simple card game (Go Fish) using C++.
- */
-
 #include <iostream>
 #include <string>
 #include <ctime>
-#include "../../../other utilities/colors.h"
-
+#include "../../Other Misc Used Files/Colors.h"
 using namespace std;
 
-/**
- * @struct Card
- * @brief Represents a single playing card with a suit and value.
- */
 struct Card {
-    string cardSuit; /**< The suit of the card. */
-    short cardValue; /**< The numerical value of the card. */
+    /**
+     * @struct Card
+     * @brief Represents a single playing card.
+     */
+    string cardSuit; ///< String representing the suit of the card.
+    short cardValue; ///< Short representing the numeric value of the card.
 };
 
-/**
- * @brief Converts a numerical card value to its corresponding string representation.
- * @param cardValue The numerical value of the card.
- * @return A string representation of the card value.
- */
 string cvtostr(short cardValue) {
+    /**
+     * @brief Converts a CardValue short to a string.
+     * @param cardValue Short representing the numeric value of the card.
+     * @return String representing the card value.
+     * @example "Ace", "Jack", "Queen", "King", or a numeric value.
+     */
     switch (cardValue) {
     case 1:
         return "Ace";
@@ -39,12 +34,13 @@ string cvtostr(short cardValue) {
     }
 }
 
-/**
- * @brief Converts a string representing a card rank to its corresponding numerical value.
- * @param cardRank The string representation of the card rank.
- * @return A short representing the numerical value of the card rank. Returns -1 if the input is invalid.
- */
 short strtocv(string cardRank) {
+    /**
+     * @brief Converts a string to a CardValue short.
+     * @param cardRank String representing the rank of the card.
+     * @return Short representing the numeric value of the card.
+     * @example For "A" or "ace", returns 1. For "J" or "jack", returns 11, and so on.
+     */
     if (cardRank == "a" || cardRank == "ace" || cardRank == "A" || cardRank == "Ace") {
         return 1;
     }
@@ -68,25 +64,30 @@ short strtocv(string cardRank) {
     }
 }
 
-/**
- * @class Deck
- * @brief Represents a deck of playing cards with card management utilities.
- */
 class Deck {
+    /**
+     * @class Deck
+     * @brief A class with simple card management utilities.
+     * Implements swapping, removing, adding, shuffling, deleting, and displaying of cards to the console.
+     */
 private:
-    Card cards[52]; /**< An array of cards representing the deck. */
-    short used;     /**< The used space in the card deck. */
+    Card cards[52]; ///< Array of cards representing the deck.
+    short used;     ///< Short integer that holds the used space in the card deck.
 
 public:
-    short size = 52; /**< The total size of the deck. */
+    short size = 52; ///< Size of the deck.
 
-    /**
-     * @brief Default constructor. Creates a new, filled deck.
-     */
     Deck() {
-        string suits[4] = { "H", "D", "C", "S" };
-        this->used = 0;
+        /**
+         * @brief Creates a new, filled deck.
+         * Fills in the deck with cards of different types.
+         * @note Time Complexity: O(N), where N is the number of cards in the deck.
+         * @example Deck deck; // Creates a new deck.
+         */
+        string suits[4] = { "H", "D", "C", "S" }; // The card suits
+        this->used = 0; // Sets used to 0
 
+        // Fills in the deck with cards of different types
         for (string suit : suits) {
             for (short value = 1; value < 14; value++) {
                 this->cards[this->used].cardSuit = suit;
@@ -96,43 +97,48 @@ public:
         }
     }
 
-    /**
-     * @brief Parameterized constructor. Makes a new empty deck.
-     * @param size The deck size.
-     */
     Deck(short size) {
+        /**
+         * @brief Makes a new empty deck, useful for player decks.
+         * @param size Short representing the deck size.
+         * @note Time Complexity: O(1)
+         * @example Deck deck(20); // Creates a new deck with a size of 20.
+         */
         this->size = size;
         this->used = 0;
     }
 
-    /**
-     * @brief Destructor. Does not perform any specific cleanup.
-     */
     ~Deck() {};
 
-    /**
-     * @brief Swaps two cards in the deck.
-     * @param index1 The index of the first card to swap.
-     * @param index2 The index of the second card to swap.
-     */
     void swap(short index1, short index2) {
+        /**
+         * @brief Swaps the card at index1 with the card at index2.
+         * @param index1 Short representing the index of the first card to swap.
+         * @param index2 Short representing the index of the second card to swap.
+         * @note Time Complexity: O(1)
+         * @example deck.swap(0, 1); // Swaps the first and second cards.
+         */
         Card tmp = this->cards[index1];
         this->cards[index1] = this->cards[index2];
         this->cards[index2] = tmp;
     }
 
-    /**
-     * @brief Shuffles the deck randomly.
-     */
     void shuffle() {
+        /**
+         * @brief Shuffles the deck by the amount of used space in the deck.
+         * @note Time Complexity: O(N * M), where N is the number of used cards and M is the number of shuffles.
+         * @example deck.shuffle(); // Shuffles the deck.
+         */
         shuffle(this->used);
     }
 
-    /**
-     * @brief Shuffles the deck a given number of times.
-     * @param numOfTimes The number of times to shuffle the deck.
-     */
     void shuffle(short numOfTimes) {
+        /**
+         * @brief Shuffles the deck a given number of times.
+         * @param numOfTimes Short representing the number of times to replace a random card with another one.
+         * @note Time Complexity: O(N * M), where N is the number of used cards and M is the number of shuffles.
+         * @example deck.shuffle(5); // Shuffles the deck 5 times.
+         */
         short randomNum1, randomNum2;
         srand(time(0));
 
@@ -143,14 +149,16 @@ public:
         }
     }
 
-    /**
-     * @brief Inserts a card into the deck if it's not already present.
-     * @param crd A Card struct representing the card to insert.
-     * @return True if the insertion is successful, false otherwise.
-     */
     bool insert(Card crd) {
-        if (this->used < this->size) {
-            if (indexOf(crd) == -1) {
+        /**
+         * @brief Inserts a card into the deck if it's not already present.
+         * @param crd Struct representing a card.
+         * @return Boolean True if completed, false if not.
+         * @note Time Complexity: O(N) on average due to indexOf() function.
+         * @example deck.insert(Card("H", 1)); // Inserts an Ace of Hearts into the deck.
+         */
+        if (this->used < this->size) { // Check if there is space in the deck
+            if (indexOf(crd) == -1) { // Check if the card already exists in the deck
                 this->cards[this->used] = crd;
                 this->used++;
                 return true;
@@ -159,12 +167,14 @@ public:
         return false;
     }
 
-    /**
-     * @brief Gets the index of a given card in the deck.
-     * @param crd A Card struct representing the card to search for.
-     * @return The index of the card if found, otherwise -1.
-     */
     short indexOf(Card crd) {
+        /**
+         * @brief Returns the index of a given card.
+         * @param crd Struct representing a card.
+         * @return Positive short representing the index if found, otherwise returns -1.
+         * @note Time Complexity: O(N), where N is the number of used cards in the deck.
+         * @example deck.indexOf(Card("H", 1)); // Returns the index of the Ace of Hearts.
+         */
         for (short i = 0; i < this->used; i++) {
             if (this->cards[i].cardValue == crd.cardValue && this->cards[i].cardSuit == crd.cardSuit) {
                 return i;
@@ -173,33 +183,39 @@ public:
         return -1;
     }
 
-    /**
-     * @brief Gets the array of cards in the deck.
-     * @return A pointer to the array of cards.
-     */
     Card* getCards() {
+        /**
+         * @brief Returns the card array.
+         * @return Array of Cards.
+         * @note Time Complexity: O(1)
+         * @example deck.getCards(); // Returns the card array.
+         */
         return this->cards;
     }
 
-    /**
-     * @brief Gets a specific card from the deck.
-     * @param index The index of the card to retrieve.
-     * @return The requested card.
-     */
     Card getCard(short index) {
+        /**
+         * @brief Returns the card at a given index.
+         * @param index Short representing the index of the card.
+         * @return The requested card.
+         * @note Time Complexity: O(1)
+         * @example deck.getCard(0); // Returns the first card in the deck.
+         */
         return this->cards[index];
     }
 
-    /**
-     * @brief Deletes and returns a given card from the deck.
-     * @param crd A Card struct representing the card to delete.
-     * @return A pointer to the deleted card, or nullptr if the card was not found.
-     */
     Card* del(Card crd) {
+        /**
+         * @brief Deletes and returns a given card.
+         * @param crd Struct representing the card to delete.
+         * @return A pointer to the deleted card, or nullptr if not found.
+         * @note Time Complexity: O(N), where N is the number of used cards in the deck. (Due to indexOf() function)
+         * @example deck.del(Card("H", 1)); // Deletes the Ace of Hearts from the deck.
+         */
         short index = indexOf(crd);
         if (index != -1) {
             Card* c = &this->cards[index];
-            swap(index, this->used - 1);
+            this->swap(index, this->used - 1); // Corrected index
             this->used--;
             return c;
         }
@@ -208,42 +224,50 @@ public:
         }
     }
 
-    /**
-     * @brief Erases the deck by removing each card.
-     */
     void eraseDeck() {
+        /**
+         * @brief Erases the deck by removing each card.
+         * @note Time Complexity: O(N), where N is the number of used cards in the deck.
+         * @example deck.eraseDeck(); // Erases the deck. 
+         */
         while (this->used > 0) {
             this->del(this->cards[this->used - 1]);
         }
     }
 
-    /**
-     * @brief Gets the used space of the deck.
-     * @return The used space of the deck.
-     */
     short getUsed() {
+        /**
+         * @brief Returns the used space of the deck.
+         * @return Short representing the used space.
+         * @note Time Complexity: O(1)
+         * @example deck.getUsed(); // Returns the used space of the deck. (0-52)
+         */
         return this->used;
     }
 
-    /**
-     * @brief Displays all cards and their values to the console.
-     */
     void displayCards() {
+        /**
+         * @brief Displays all cards and their values to console (cout).
+         * @note Time Complexity: O(N), where N is the number of used cards in the deck.
+         * @example deck.displayCards(); // Displays all cards and their values to console.
+         */
         string s = "";
         for (short i = 0; i < this->used; i++) {
-            string c = cvtostr(this->getCard(i).cardValue);
-            s = s + c;
+            string c = cvtostr(this->getCard(i).cardValue); // Gets card values
+            s = s + c; // Adds to main string
             s = s + " ";
         }
         cout << s;
     }
 
-    /**
-     * @brief Checks if the deck contains a card with a specific value.
-     * @param cardValue The value of the card to check for.
-     * @return True if the deck contains a card with the given value, false otherwise.
-     */
     bool checkDeckForCardWithValue(short cardValue) {
+        /**
+         * @brief Checks if the deck contains a card with a specific value.
+         * @param cardValue Short representing the value to check for.
+         * @return Boolean True if the deck contains a card with the specified value, false otherwise.
+         * @note Time Complexity: O(N), where N is the number of used cards in the deck.
+         * @example deck.checkDeckForCardWithValue(1); // Checks if the deck contains an Ace. 
+         */
         for (short i = 0; i < this->used; i++) {
             if (this->getCard(i).cardValue == cardValue) {
                 return true;
@@ -253,12 +277,15 @@ public:
     }
 };
 
-
-/**
- * @brief Main function implementing a simple console-based card game (Go Fish).
- * @return 0 on successful execution.
- */
 int main() {
+    /**
+     * @brief The main function.
+     * @return Integer 0 upon exit success.
+     * @note Time Complexity: O(N), where N is the number of cards in the deck.
+     * @example main(); // Runs the program.
+     * @example ./gofish.out, ./gofish.exe, ./gofish.so, etc; // Runs the program.
+    */
+
     // Welcome Message and Rules
     cout << "Welcome to Go Fish!" << endl;
     cout << "Rules:" << endl;
@@ -370,10 +397,6 @@ int main() {
                         bool t = playerDecks[playerTurn].insert(*cardFished);
                         validCardFished = true;
                         cardFound = true;
-                        cout << "You fished a " << cvtostr(cardFished->cardValue) << " from Player " << playerToFish << endl;
-                        // remove the card from the fished player's deck
-                        playerDecks[playerToFish - 1].del(*cardFished);
-
                     }
                     break;
                 }
@@ -398,7 +421,7 @@ int main() {
             // Set Found
             if (numOfCards == 4) {
                 for (short j = 0; j < playerDecks[playerTurn].getUsed(); j++) {
-                    if (playerDecks[playerTurn].getCard(i).cardValue == playerDecks[playerTurn].getCard(j).cardValue) { // if the current player's card has the same value as the card in the set
+                    if (playerDecks[playerTurn].getCard(i).cardValue == playerDecks[playerTurn].getCard(j).cardValue) {
                         playerDecks[playerTurn].del(playerDecks[playerTurn].getCard(j));
                     }
                 }

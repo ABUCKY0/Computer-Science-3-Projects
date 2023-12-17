@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "DLinkedListQueue",
+            "request": "launch",
+            "mainClass": "DLinkedListQueue",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
+            "name": "Queue",
+            "request": "launch",
+            "mainClass": "Queue",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
             "name": "StdAudio",
             "request": "launch",
             "mainClass": "StdAudio",
