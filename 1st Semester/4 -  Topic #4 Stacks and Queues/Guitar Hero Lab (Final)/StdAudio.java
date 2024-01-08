@@ -1,4 +1,4 @@
-// Copyright 2000–2011, Robert Sedgewick and Kevin Wayne.
+// Copyright 2000 2011, Robert Sedgewick and Kevin Wayne.
 
 /*************************************************************************
  *  Compilation:  javac StdAudio.java
