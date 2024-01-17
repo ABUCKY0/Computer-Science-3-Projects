@@ -55,7 +55,8 @@
     "java.project.sourcePaths": [
         "Semester 1/Semester Final (Portfolio)/Data Structures/Stacks & Queues",
         "Semester 1/Semester Final (Portfolio)/Data Structures/LinkedLists",
-        "Semester 1/4 -  Topic #4 Stacks and Queues/Guitar Hero Lab (Final)"
+        "Semester 1/4 -  Topic #4 Stacks and Queues/Guitar Hero Lab (Final)",
+        "2nd Semester/Introduction to Sets/Java"
     ],
     "markdown.validate.enabled": false
 }
