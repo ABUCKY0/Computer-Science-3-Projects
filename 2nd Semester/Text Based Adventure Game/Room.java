@@ -1,0 +1,45 @@
+public class Room extends ThingHolder {
+
+    private int n, s, w, e;
+
+    public Room(String aName, String desc, int aN, int aS, int aW, int aE, ThingList tl) {
+        super(aName, desc, tl);
+        this.n = aN;
+        this.s = aS;
+        this.w = aW;
+        this.e = aE;
+
+    }
+
+    public int getN() {
+        return this.n;
+    }
+
+    public int getS() {
+        return this.s;
+    }
+
+    public int getE() {
+        return this.e;
+    }
+
+    public int getW() {
+        return this.w;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    public void setS(int s) {
+        this.s = s;
+    }
+
+    public void setW(int w) {
+        this.w = w;
+    }
+
+    public void setE(int e) {
+        this.e = e;
+    }
+}
