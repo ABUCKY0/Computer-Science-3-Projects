@@ -9,4 +9,6 @@ public enum Direction {
      * whereas NOEXIT is -1;
      */
     public static final int NOEXIT = -1;
+    public static final int NOTALLOWED = -2;
+    public static final int BLOCKED = -3;
 }

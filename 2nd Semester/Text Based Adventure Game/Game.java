@@ -2,6 +2,7 @@ import java.util.*;
 
 public class Game {
     private ArrayList<Room> map;
+    private ArrayList<Room> school;
     private Actor player;
     private ThingList playerInventory;
 
@@ -9,62 +10,48 @@ public class Game {
             Arrays.asList("take", "drop", "look", "n", "s", "e", "w", "peek", "whereami"));
     List<String> objects = new ArrayList<>(Arrays.asList("sword", "ring", "bow", "arrow", "glock"));
 
-    ThingList bankList, bedroomList, bathroomList, lootroomList, atticList;
-    Treasure bolt, glock, cellphone, painting, dime;
-    Room bank, bedroom, attic, bathroom, lootroom;
+    ThingList eFieldList, sFieldList, toolShedList, schoolList;
+    Treasure machete, glock, crowbar, key, doorcode; // Doorcode is a "treasure"
+    Room eField, sField, toolShed, schoolRoom;
 
     public Game() {
         this.map = new ArrayList<Room>();
 
-        // lists
-        this.bankList = new ThingList();
-        this.bedroomList = new ThingList();
-        this.bathroomList = new ThingList();
-        this.lootroomList = new ThingList();
-        this.atticList = new ThingList();
 
-        // treasures
-        // bolt, glock, cellphone, painting, dime
+        // Create rooms/areas
+        this.eFieldList = new ThingList();
+        this.sFieldList = new ThingList();
+        this.toolShedList = new ThingList();
+        this.schoolList = new ThingList();
 
-        this.bolt = new Treasure("bolt", "a bolt", 47, 0.50);
-        this.cellphone = new Treasure("iPhone15", "Find your way around", 800, 0.75);
-        this.painting = new Treasure("Mona Lisa", "rare painting", 1000000, 0.01);
-        this.dime = new Treasure("dime", "a dime", 0.10, 0.99);
+        // Add Rooms to Map ArrayList
+        // 0 - eField
+        // 1 - sField
+        // 2 - toolShed
+        // 3 - schoolRoom
+
         /*
-         * Rooms
-         * bedroom = 1; bathroom = 2; attic = 3; bank = 4; lootroom = 5;
-         * 
-         * 
-         * start: bedroom ->(N)attic
-         * start: bedroom -> (E)bathroom
-         * start: bedroom ->(S)bank
-         * start: bedroom ->(W) NOEXIT
-         * 
-         * attic -> (S)bedroom
-         * attic -> (OTHER)noexit
-         * 
-         * bathroom -> (W)bedroom; everywhere else noexit
-         * 
-         * bank -> (N)bedroom;
-         * bank -> lootroom; everywhere else NOEXIT
+         *  none  -x- School -x- East FootBall Field
+         *               \     /                                        
+         *  toolShed <--> South FootBall Field
          */
-        this.bank = new Room("bank", "North is bedroom and East is lootroom", 0, Direction.NOEXIT, Direction.NOEXIT, 4,
-                bankList);
-        this.bedroom = new Room("bedroom", "The bedroom has 3 exits: N, E, S", 2, 3, Direction.NOEXIT, 1, bedroomList);
-        this.bathroom = new Room("bathroom", "A basic bathroom with a boosted glock spawn chance", Direction.NOEXIT,
-                Direction.NOEXIT, 0, Direction.NOEXIT, bathroomList);
-        this.attic = new Room("attic", "Mystery room that contains a key", Direction.NOEXIT, Direction.NOEXIT, 0,
-                Direction.NOEXIT, lootroomList);
-        this.lootroom = new Room("lootroom", "A room with a painting and a dime", Direction.NOEXIT, Direction.NOEXIT, 3,
-                Direction.NOEXIT, atticList);
 
-        // add rooms to map
+        // Create eField
+        this.eField = new Room("East FootBall Field", "You are on the East FootBall Field", Direction.NOEXIT, 1, Direction.NOEXIT, Direction.NOEXIT, this.eFieldList);
+        this.map.add(this.eField);
 
-        this.map.add(this.bedroom);
-        this.map.add(this.bank);
-        this.map.add(this.bathroom);
-        this.map.add(this.attic);
-        this.map.add(this.lootroom);
+        // Create sField
+        this.sField = new Room("South FootBall Field", "You are on the South FootBall Field", 3, Direction.NOEXIT, 2, 0, this.sFieldList); //3 shouldn't allow you to move there
+        this.map.add(this.sField);
+
+        // Create toolShed
+        this.toolShed = new Room("Tool Shed", "You are in the Tool Shed", Direction.NOEXIT, Direction.NOEXIT, Direction.NOEXIT, 1, this.toolShedList);
+        this.map.add(this.toolShed);
+
+        // Create schoolRoom (Special Room that it actually changes the map to the school map)
+        this.schoolRoom = new Room("School", "You are in the School", Direction.NOEXIT, Direction.NOEXIT, Direction.NOEXIT, Direction.NOEXIT, this.schoolList, false);
+        this.map.add(this.schoolRoom);
+
 
         this.playerInventory = new ThingList();
 
@@ -107,15 +94,27 @@ public class Game {
         Room currentRoom = anActor.getLocation();
         switch (dir) {
             case NORTH:
+                if (this.map.get(currentRoom.getN()).getAccessable() == false) {
+                    return Direction.BLOCKED;
+                }
                 exit = currentRoom.getN();
                 break;
             case SOUTH:
+                if (this.map.get(currentRoom.getS()).getAccessable() == false) {
+                    return Direction.BLOCKED;
+                }
                 exit = currentRoom.getS();
                 break;
             case EAST:
+                if (this.map.get(currentRoom.getE()).getAccessable() == false) {
+                    return Direction.BLOCKED;
+                }
                 exit = currentRoom.getE();
                 break;
             case WEST:
+                if (this.map.get(currentRoom.getW()).getAccessable() == false) {
+                    return Direction.BLOCKED;
+                }
                 exit = currentRoom.getW();
                 break;
             default:
@@ -156,7 +155,11 @@ public class Game {
         String s;
         if (roomNumber == Direction.NOEXIT) {
             s = "No Exit!";
-        } else {
+        } 
+        else if (roomNumber == Direction.BLOCKED) {
+            s = "You can't go that way! Look around for a crowbar to pry open the door.";
+        }
+        else {
             Room r = this.getPlayer().getLocation();
             s = "You are in " + r.getName() + ". " + r.getDescription();
         }
@@ -198,6 +201,14 @@ public class Game {
                 case "whereami":
                     Room r2 = this.getPlayer().getLocation();
                     System.out.println("You are in " + r2.getName());
+                    System.out.println(
+                            "North: " + (r2.getN() == Direction.NOEXIT ? "Nothing" : this.map.get(r2.getN()).getName()));
+                    System.out.println(
+                            "South: " + (r2.getS() == Direction.NOEXIT ? "Nothing" : this.map.get(r2.getS()).getName()));
+                    System.out.println(
+                            "East: " + (r2.getE() == Direction.NOEXIT ? "Nothing" : this.map.get(r2.getE()).getName()));
+                    System.out.println(
+                            "West: " + (r2.getW() == Direction.NOEXIT ? "Nothing" : this.map.get(r2.getW()).getName()));
                     break;
                 default:
                     msg = "not implemented yet";
