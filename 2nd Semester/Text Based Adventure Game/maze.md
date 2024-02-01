@@ -1,23 +1,23 @@
-,---------------------------------------.---------.    
-|  0    1   2   3    4     5    6    7  | 8    9  |    
-|    ,-----------------------------.    |    .    |    
-| 10 | 11   12   13   14   15  16  | 17 | 18 | 19 |    
-|    |    ,-------------------.    |    |    |    |    
-| 20 | 21 | 22   23   24   25 | 26 | 27 | 28 | 29 |    
-|    |    `----     ,----     |    |    |    |    |    
-| 30 | 31   32   33 | X    35 | 36 | 37 | 38 | 39 |    
-|    |    ,---------"---------:    |    `----'    |    
-| 40 | 41 | 42   43   44   45 | 46 | 47   48   49 |    
-|    `----:    ,---------.    |    `---------.    |    
-| 50   51 | 52 | 53   54 | 55 | 56   57   58 | 59 |    
-|    .    |    |    .    |    |     ---------'    |    
-| 60 | 61 | 62 | 63 | 64 | 65 | 66   67   68   69 |    
-:----'    |    |    |    |    |    ,--------------:    
-| 70   71 | 72 | 73 | 74 | 75 | 76 | 77   78   79 |    
-|    .    |    `----'    |    |    |     ----.    |    
-| 80 | 81 | 82   83   84 | 85 | 86 | 87   88 | 89 |    
-|    `----"---------     |    |    `---------'    |    
-| 90   91   92   93   94 | 95 | 96   97   98   99 |    
+,---------------------------------------.---------.
+|  0    1   2   3    4     5    6    7  | 8    9  |
+|    ,-----------------------------.    |    .    |
+| 10 | 11   12   13   14   15  16  | 17 | 18 | 19 |
+|    |    ,-------------------.    |    |    |    |
+| 20 | 21 | 22   23   24   25 | 26 | 27 | 28 | 29 |
+|    |    `----     ,----     |    |    |    |    |
+| 30 | 31   32   33 | X    35 | 36 | 37 | 38 | 39 |
+|    |    ,---------"---------:    |    `----'    |
+| 40 | 41 | 42   43   44   45 | 46 | 47   48   49 |
+|    `----:    ,---------.    |    `---------.    |
+| 50   51 | 52 | 53   54 | 55 | 56   57   58 | 59 |
+|    .    |    |    .    |    |     ---------'    |
+| 60 | 61 | 62 | 63 | 64 | 65 | 66   67   68   69 |
+:----'    |    |    |    |    |    ,--------------:
+| 70   71 | 72 | 73 | 74 | 75 | 76 | 77   78   79 |
+|    .    |    `----'    |    |    |     ----.    |
+| 80 | 81 | 82   83   84 | 85 | 86 | 87   88 | 89 |
+|    `----"---------     |    |    `---------'    |
+| 90   91   92   93   94 | 95 | 96   97   98   99 |
 `------------------------'    `-------------------'
 
 
@@ -34,32 +34,37 @@
 
 100 = the hallway
 
-(RoomNumAsString, Description, RoomNumNorth, RoomNumSouth, RoomNumWest, RoomNumEast)
-this.mazemap.add(new Room( 0,"", Direction.NOEXIT, 10, Direction.NOEXIT, 1,emptymazelist))
-this.mazemap.add(new Room( 1,"", Direction.NOEXIT, Direction.NOEXIT, 0, 2,emptymazelist))
-this.mazemap.add(new Room( 2,"", Direction.NOEXIT, Direction.NOEXIT, 1, 3,emptymazelist))
-this.mazemap.add(new Room( 3,"", Direction.NOEXIT, Direction.NOEXIT, 2, 4,emptymazelist))
-this.mazemap.add(new Room( 4,"", Direction.NOEXIT, Direction.NOEXIT, 3, 5,emptymazelist))
-this.mazemap.add(new Room( 5,"", Direction.NOEXIT, Direction.NOEXIT, 4, 6,emptymazelist))
-this.mazemap.add(new Room( 6,"", Direction.NOEXIT, Direction.NOEXIT, 5, 7,emptymazelist))
-this.mazemap.add(new Room( 7,"", Direction.NOEXIT, 6, 17, Direction.NOEXIT,emptymazelist))
-this.mazemap.add(new Room( 8,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 9,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 10,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 11,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 12,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 13,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 14,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 15,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 16,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 17,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 18,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 19,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 20,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 21,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 22,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 23,"", , , , ,emptymazelist))
-this.mazemap.add(new Room( 24,"", , , , ,emptymazelist))
+ n 
+w e
+ s
+
+
+(RoomNumAsString, Description,    n,  s,  w,  e)
+this.mazemap.add(new Room( 0,"",  -1, 10, -1,  1,emptymazelist))
+this.mazemap.add(new Room( 1,"",  -1, -1, 0,   2,emptymazelist))
+this.mazemap.add(new Room( 2,"",  -1, -1, 1,   3,emptymazelist))
+this.mazemap.add(new Room( 3,"",  -1, -1, 2,   4,emptymazelist))
+this.mazemap.add(new Room( 4,"",  -1, -1, 3,   5,emptymazelist))
+this.mazemap.add(new Room( 5,"",  -1, -1, 4,   6,emptymazelist))
+this.mazemap.add(new Room( 6,"",  -1, -1, 5,   7,emptymazelist)) 
+this.mazemap.add(new Room( 7,"",  -1,  17, 6, -1,emptymazelist)) 
+this.mazemap.add(new Room( 8,"",  -1, 18, -1,  9,emptymazelist))
+this.mazemap.add(new Room( 9,"",  -1, 19,  8, -1,emptymazelist))
+this.mazemap.add(new Room( 10,"",  0, 20, -1, -1,emptymazelist))
+this.mazemap.add(new Room( 11,"", -1, 21, -1, -1,emptymazelist))
+this.mazemap.add(new Room( 12,"", -1, -1, 11, 13,emptymazelist))
+this.mazemap.add(new Room( 13,"", -1, -1, 12, 14,emptymazelist))
+this.mazemap.add(new Room( 14,"", -1, -1, 13, 15,emptymazelist))
+this.mazemap.add(new Room( 15,"", -1, -1, 14, 16,emptymazelist))
+this.mazemap.add(new Room( 16,"", -1, 26, 15, -1,emptymazelist))
+this.mazemap.add(new Room( 17,"",  7, 27, -1, -1,emptymazelist))
+this.mazemap.add(new Room( 18,"",  8, 28, -1, -1,emptymazelist))
+this.mazemap.add(new Room( 19,"",  9, 29, -1, -1,emptymazelist))
+this.mazemap.add(new Room( 20,"", 10, 30, -1, -1,emptymazelist))
+this.mazemap.add(new Room( 21,"", 11, 31, -1, -1,emptymazelist))
+this.mazemap.add(new Room( 22,"", -1, -1, -1, 23,emptymazelist))
+this.mazemap.add(new Room( 23,"", -1, 33, 22, 24,emptymazelist))
+this.mazemap.add(new Room( 24,"", -1, -1, 25, 23,emptymazelist))
 this.mazemap.add(new Room( 25,"", , , , ,emptymazelist))
 this.mazemap.add(new Room( 26,"", , , , ,emptymazelist))
 this.mazemap.add(new Room( 27,"", , , , ,emptymazelist))
