@@ -2,6 +2,7 @@ import java.util.*;
 
 public class Game {
     private ArrayList<Room> map;
+    private ArrayList<Room> outsideMap;
     private ArrayList<Room> school;
     private ArrayList<Room> mazemap;
     private Actor player;
@@ -16,13 +17,16 @@ public class Game {
     Room eField, sField, toolShed, schoolRoom;
 
     public Game() {
-        this.map = new ArrayList<Room>();
-
+        this.outsideMap = new ArrayList<Room>();
+        this.map = this.outsideMap;
+        this.mazemap = new ArrayList<Room>();
         // Create rooms/areas
         this.eFieldList = new ThingList();
         this.sFieldList = new ThingList();
         this.toolShedList = new ThingList();
         this.schoolList = new ThingList();
+        this.emptymazelist = new ThingList();
+        
 
         // Add Rooms to Map ArrayList
         // 0 - eField
@@ -61,6 +65,11 @@ public class Game {
 
         this.player = new Actor("Player", "The player", this.playerInventory, map.get(0), map);
 
+        // School Map
+        // 0 - Broken Window Classroom (Entry)
+        // 1 - School Cafeteria
+
+        {
         this.mazemap.add(new Room("0",
                 ",---------------------------------------.---------.\n|  O                                    |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
                 Direction.NOEXIT, 10, Direction.NOEXIT, 1, emptymazelist));
@@ -135,7 +144,7 @@ public class Game {
                 Direction.NOEXIT, 33, 22, 24, emptymazelist));
         this.mazemap.add(new Room("24",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |            O      |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
-                Direction.NOEXIT, Direction.NOEXIT, 25, 23, emptymazelist));
+                Direction.NOEXIT, Direction.NOEXIT, 23, 25, emptymazelist));
         this.mazemap.add(new Room("25",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                 O |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
                 Direction.NOEXIT, 35, 24, Direction.NOEXIT, emptymazelist));
@@ -213,7 +222,7 @@ public class Game {
                 39, 59, 48, Direction.NOEXIT, emptymazelist));
         this.mazemap.add(new Room("50",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|  O      |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
-                40, 60, 51, Direction.NOEXIT, emptymazelist));
+                40, 60, Direction.NOEXIT, 51, emptymazelist));
         this.mazemap.add(new Room("51",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|       O |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
                 Direction.NOEXIT, 61, 50, Direction.NOEXIT, emptymazelist));
@@ -318,7 +327,7 @@ public class Game {
                 74, 94, 83, Direction.NOEXIT, emptymazelist));
         this.mazemap.add(new Room("85",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |  O |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
-                57, 95, Direction.NOEXIT, Direction.NOEXIT, emptymazelist));
+                75, 95, Direction.NOEXIT, Direction.NOEXIT, emptymazelist));
         this.mazemap.add(new Room("86",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |  O |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
                 76, 96, Direction.NOEXIT, Direction.NOEXIT, emptymazelist));
@@ -327,7 +336,7 @@ public class Game {
                 77, Direction.NOEXIT, Direction.NOEXIT, 88, emptymazelist));
         this.mazemap.add(new Room("88",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |       O |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
-                Direction.NOEXIT, Direction.NOEXIT, Direction.NOEXIT, 87, emptymazelist));
+                Direction.NOEXIT, Direction.NOEXIT, 87, Direction.NOEXIT, emptymazelist));
         this.mazemap.add(new Room("89",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |  O |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                   |\n`------------------------'    `-------------------'",
                 79, 99, Direction.NOEXIT, Direction.NOEXIT, emptymazelist));
@@ -348,7 +357,7 @@ public class Game {
                 84, Direction.NOEXIT, 93, Direction.NOEXIT, emptymazelist));
         this.mazemap.add(new Room("95",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |  O |                   |\n`------------------------'    `-------------------'",
-                85, 100, Direction.NOEXIT, Direction.NOEXIT, emptymazelist));
+                85, Direction.BLOCKED, Direction.NOEXIT, Direction.NOEXIT, emptymazelist));
         this.mazemap.add(new Room("96",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |  O                |\n`------------------------'    `-------------------'",
                 86, Direction.NOEXIT, Direction.NOEXIT, 97, emptymazelist));
@@ -361,9 +370,9 @@ public class Game {
         this.mazemap.add(new Room("99",
                 ",---------------------------------------.---------.\n|                                       |         |\n|    ,-----------------------------.    |    .    |\n|    |                             |    |    |    |\n|    |    ,-------------------.    |    |    |    |\n|    |    |                   |    |    |    |    |\n|    |    `----     ,----     |    |    |    |    |\n|    |              | X       |    |    |    |    |\n|    |    ,---------\"---------:    |    `----'    |\n|    |    |                   |    |              |\n|    `----:    ,---------.    |    `---------.    |\n|         |    |         |    |              |    |\n|    .    |    |    .    |    |     ---------'    |\n|    |    |    |    |    |    |                   |\n:----'    |    |    |    |    |    ,--------------:\n|         |    |    |    |    |    |              |\n|    .    |    `----'    |    |    |     ----.    |\n|    |    |              |    |    |         |    |\n|    `----\"---------     |    |    `---------'    |\n|                        |    |                 O |\n`------------------------'    `-------------------'",
                 89, Direction.NOEXIT, 98, Direction.NOEXIT, emptymazelist));
+        }
         // this.mazemap.add(this.school.get(/*hallwayLocation*/))
-
-        player.setMap(mazemap);
+        
         player.setLocation(this.mazemap.get(95));
 
     }
@@ -404,25 +413,40 @@ public class Game {
         Room currentRoom = anActor.getLocation();
         switch (dir) {
             case NORTH:
+                if (currentRoom.getN() == Direction.NOEXIT || currentRoom.getN() == Direction.BLOCKED || currentRoom.getN() == Direction.NOTALLOWED) {
+                    return currentRoom.getN();
+                }
                 if (anActor.getMap().get(currentRoom.getN()).getAccessable() == false) {
                     return Direction.BLOCKED;
                 }
                 exit = currentRoom.getN();
                 break;
             case SOUTH:
+                if (currentRoom.getS() == Direction.NOEXIT || currentRoom.getS() == Direction.BLOCKED || currentRoom.getS() == Direction.NOTALLOWED) {
+                    return currentRoom.getS();
+                }
                 if (anActor.getMap().get(currentRoom.getS()).getAccessable() == false) {
                     return Direction.BLOCKED;
                 }
                 exit = currentRoom.getS();
                 break;
             case EAST:
+                if (currentRoom.getE() == Direction.NOEXIT || currentRoom.getE() == Direction.BLOCKED || currentRoom.getE() == Direction.NOTALLOWED) {
+                    return currentRoom.getE();
+                }
                 if (anActor.getMap().get(currentRoom.getE()).getAccessable() == false) {
                     return Direction.BLOCKED;
                 }
                 exit = currentRoom.getE();
                 break;
             case WEST:
-                if (anActor.getMap().get(currentRoom.getW()).getAccessable() == false) {
+                if (currentRoom.getW() == Direction.NOEXIT || currentRoom.getW() == Direction.BLOCKED || currentRoom.getW() == Direction.NOTALLOWED) {
+                    return currentRoom.getW();
+                }
+                
+                Room w = anActor.getMap().get(currentRoom.getW());
+                
+                if (w.getAccessable() == false) {
                     return Direction.BLOCKED;
                 }
                 exit = currentRoom.getW();
@@ -431,7 +455,7 @@ public class Game {
                 exit = Direction.NOEXIT;
                 break;
         }
-        if (exit != Direction.NOEXIT) {
+        if (exit != Direction.NOEXIT && exit != Direction.BLOCKED && exit != Direction.NOTALLOWED) {
             this.moveActorTo(anActor, anActor.getMap().get(exit));
         }
         return exit;
@@ -467,9 +491,11 @@ public class Game {
             s = "No Exit!";
         } else if (roomNumber == Direction.BLOCKED) {
             s = "You can't go that way! Look around for a crowbar to pry open the door.";
-        } else {
+        } else if (roomNumber == Direction.NOTALLOWED) {
+            s = "Not Allowed";} 
+        else {
             Room r = this.getPlayer().getLocation();
-            s = "You are in " + r.getName() + ". " + r.getDescription();
+            s = "You are in " + r.getName() + ". \n" + r.getDescription();
         }
         System.out.println(s);
     }
@@ -498,27 +524,17 @@ public class Game {
                 case "peek":
                     Room r = this.getPlayer().getLocation();
                     System.out.println(
-                            "North: " + (r.getN() == Direction.NOEXIT ? "Nothing" : this.map.get(r.getN()).getName()));
+                            "North: " + (r.getN() == Direction.NOEXIT || r.getN() == Direction.BLOCKED || r.getN() == Direction.NOTALLOWED ? "Nothing" : this.map.get(r.getN()).getName()));
                     System.out.println(
-                            "South: " + (r.getS() == Direction.NOEXIT ? "Nothing" : this.map.get(r.getS()).getName()));
+                            "South: " + (r.getS() == Direction.NOEXIT || r.getS() == Direction.BLOCKED || r.getS() == Direction.NOTALLOWED ? "Nothing" : this.map.get(r.getS()).getName()));
                     System.out.println(
-                            "East: " + (r.getE() == Direction.NOEXIT ? "Nothing" : this.map.get(r.getE()).getName()));
+                            "East: " + (r.getE() == Direction.NOEXIT || r.getE() == Direction.BLOCKED || r.getE() ==  Direction.NOTALLOWED ? "Nothing" : this.map.get(r.getE()).getName()));
                     System.out.println(
-                            "West: " + (r.getW() == Direction.NOEXIT ? "Nothing" : this.map.get(r.getW()).getName()));
+                            "West: " + (r.getW() == Direction.NOEXIT || r.getW() == Direction.BLOCKED || r.getW() == Direction.NOTALLOWED ? "Nothing" : this.map.get(r.getW()).getName()));
                     break;
                 case "whereami":
                     Room r2 = this.getPlayer().getLocation();
-                    System.out.println("You are in " + r2.getName());
-                    System.out.println(
-                            "North: "
-                                    + (r2.getN() == Direction.NOEXIT ? "Nothing" : this.map.get(r2.getN()).getName()));
-                    System.out.println(
-                            "South: "
-                                    + (r2.getS() == Direction.NOEXIT ? "Nothing" : this.map.get(r2.getS()).getName()));
-                    System.out.println(
-                            "East: " + (r2.getE() == Direction.NOEXIT ? "Nothing" : this.map.get(r2.getE()).getName()));
-                    System.out.println(
-                            "West: " + (r2.getW() == Direction.NOEXIT ? "Nothing" : this.map.get(r2.getW()).getName()));
+                    System.out.println(r2.getDescription());
                     break;
                 default:
                     msg = "not implemented yet";
