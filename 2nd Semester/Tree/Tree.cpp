@@ -4,6 +4,8 @@
 #include <list>
 #include <string>
 
+
+
 using namespace std;
 
 struct TreeNode {
@@ -31,11 +33,13 @@ struct TreeNode {
 
 class Tree {
 private:
+
+public:
+
     TreeNode* root;
     int size;
     list<TreeNode*> children;
-
-public:
+    
     Tree(int data) {
         this->root = new TreeNode;
         this->root->data = data;
@@ -164,6 +168,7 @@ public:
         }
         return hasPathSum(node->left, sum - node->getData()) || hasPathSum(node->right, sum - node->getData());
     }
+    
 };
 
 int main() {

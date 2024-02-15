@@ -50,7 +50,8 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "list": "cpp"
     },
     "java.project.sourcePaths": [
         "Semester 1/Semester Final (Portfolio)/Data Structures/Stacks & Queues",
