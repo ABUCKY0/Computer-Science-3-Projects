@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MinHeap",
+            "request": "launch",
+            "mainClass": "Heap.Java.MinHeap",
+            "projectName": "Computer-Science-3-Projects_96420cd"
+        },
+        {
+            "type": "java",
             "name": "AdventureGame",
             "request": "launch",
             "mainClass": "AdventureGame",

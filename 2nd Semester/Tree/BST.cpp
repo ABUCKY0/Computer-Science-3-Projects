@@ -1,99 +1,117 @@
-#include "Tree.cpp"
+#include "BST.h"
 
-class BST : public Tree
+
+BST::BST(int data) : Tree(data)
 {
-public:
-    BST(int data) : Tree(data){};
-    BST() : Tree(){};
-    ~BST(){};
-
-    /*
-     * Inserts a new node with the given data into the tree.
-     */
-    void insert(int data)
-    {
-        TreeNode *newNode = new TreeNode;
-        newNode->data = data;
-        newNode->left = nullptr;
-        newNode->right = nullptr;
-        newNode->layer = 0;
-
-        TreeNode *current = this->root;
-        TreeNode *parent = nullptr;
-
-        while (current != nullptr)
-        {
-            parent = current;
-            if (data < current->data)
-            {
-                current = current->left;
-            }
-            else
-            {
-                current = current->right;
-            }
-        }
-
-        if (parent == nullptr)
-        {
-            this->root = newNode;
-        }
-        else if (data < parent->data)
-        {
-            parent->left = newNode;
-        }
-        else
-        {
-            parent->right = newNode;
-        }
-    }
-
-    bool search(int data)
-    {
-        return search(data, this->root);
-    }
-    bool search(int data, TreeNode *node)
-    {
-        if (node == nullptr)
-        {
-            return false;
-        }
-        if (node->data == data)
-        {
-            return true;
-        }
-        if (data < node->data)
-        {
-            return search(data, node->left);
-        }
-        else
-        {
-            return search(data, node->right);
-        }
-    }
+    cout << "BST Constructor" << endl;
 };
+BST::BST() : Tree(){};
+BST::~BST(){};
 
-int main()
+
+void BST::add(int data)
 {
-    BST *bst = new BST(10);
-    bst->insert(5);
-    bst->insert(15);
-    bst->insert(3);
-    bst->insert(7);
-    bst->insert(12);
-    bst->insert(17);
-    bst->insert(1);
-    bst->insert(4);
-    bst->insert(6);
-    bst->insert(8);
-    bst->insert(11);
-    bst->insert(13);
-    bst->insert(16);
-    bst->insert(18);
-    bst->insert(2);
-    bst->insert(9);
-    bst->insert(14);
-
-    cout << "In Order: ";
-    bst->printInOrder();
+    add(data, this->root);
 }
+
+
+void BST::add(int data, TreeNode *node)
+{
+    if (data < node->data)
+    {
+        if (node->left == nullptr)
+        {
+            node->left = createNode(data);
+        }
+        else
+        {
+            add(data, node->left);
+        }
+    }
+    else
+    {
+        if (node->right == nullptr)
+        {
+            node->right = createNode(data);
+        }
+        else
+        {
+            add(data, node->right);
+        }
+    }
+}
+
+
+bool BST::search(int data)
+{
+    return search(data, this->root);
+}
+
+bool BST::search(int data, TreeNode *node)
+{
+    if (node == nullptr)
+    {
+        return false;
+    }
+    if (node->data == data)
+    {
+        return true;
+    }
+    if (data < node->data)
+    {
+        return search(data, node->left);
+    }
+    else
+    {
+        return search(data, node->right);
+    }
+}
+
+TreeNode* BST::ios(TreeNode* node) {
+    if (node->right == nullptr) {
+        return node;
+    }
+    return ios(node->right);
+}
+
+TreeNode* BST::inOrderSuccessor(TreeNode* node)
+{
+    // left of the root and all the way right.
+    if (node->left == nullptr)
+    {
+        return nullptr;
+    }
+    else if (node->left->right == nullptr)
+    {
+        return node->left;
+    }
+}
+
+TreeNode *BST::inOrderPredecessor(TreeNode *node)
+{
+    // right of the root and all the way left
+    return nullptr;
+}
+
+// int main()
+// {
+//     BST *bst = new BST(15);
+//     bst->add(7);
+//     bst->add(3);
+//     bst->add(8);
+//     bst->add(25);
+//     bst->add(16);
+//     bst->add(30);
+
+//     cout << "In Order: ";
+//     bst->printInOrder();
+    
+
+//     // search
+//     cout << "Search 5: " << bst->search(5) << endl;
+//     cout << "Search 15: " << bst->search(15) << endl;
+
+//     /*
+//     cout << "In Order: ";
+//     bst->printInOrder();*/
+// }
