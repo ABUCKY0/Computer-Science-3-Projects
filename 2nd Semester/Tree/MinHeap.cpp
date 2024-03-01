@@ -61,7 +61,7 @@ void MinHeap::trickleUp(int index) {
   TreeNode *current = this->get(index, this->children);
   TreeNode *parent = this->get(parentIndex, this->children);
 
-  if (current->getData() < parent->getData()) {
+  if (current->getData() > parent->getData()) {
     // Swap current node with its parent
     int temp = current->getData();
     current->setData(parent->getData());
