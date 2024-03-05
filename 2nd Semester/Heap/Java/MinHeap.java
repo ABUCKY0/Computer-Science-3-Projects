@@ -29,7 +29,8 @@ public class MinHeap {
         this.current_size = 0;
     }
 
-    /** Gets the Left Child
+    /**
+     * Gets the Left Child
      * 
      * @param index the parent index
      * @return the left Child's value
@@ -39,7 +40,9 @@ public class MinHeap {
             return null;
         return this.data[2 * index + 1];
     }
-    /** Gets the Right Child
+
+    /**
+     * Gets the Right Child
      * 
      * @param index the parent index
      * @return the right Child's value
@@ -101,7 +104,6 @@ public class MinHeap {
      * @param index the index to move
      */
     public void trickleUp(int index) {
-        System.out.println("trickleup");
         if (index == 0)
             return;
 
@@ -119,31 +121,27 @@ public class MinHeap {
      * @param index the index to move
      */
     public void trickleDown(int index) {
-        System.out.println("trickledown");
         Integer lChild = this.getLeftChild(index);
         Integer rChild = this.getRightChild(index);
-
-        System.out.println("Left Child: " + lChild);
-        System.out.println("Right Child: " + rChild);
         if (lChild == null) {
             return;
         }
         if (lChild < this.data[index]) {
             swap(2 * index + 1, index);
-            trickleDown(index);
+            trickleDown(2 * index + 1); // update index
             return;
         }
-        // If the right is null, and youve made it this far, then you're in the right place and exit
+        // If the right is null, and you've made it this far, then you're in the right
+        // place and exit
         if (rChild == null) {
             return;
         }
         // If the child is less than the index, swap them and continue trickling down
         if (rChild < this.data[index]) {
             swap(2 * index + 2, index);
-            trickleDown(index);
+            trickleDown(2 * index + 2); // update index
             return;
         }
-
     }
 
     /**
@@ -161,7 +159,8 @@ public class MinHeap {
     /**
      * Resizes the Array to Double its current size.
      * 
-     * @implNote Could get Exponential *fast* if used multiple times because {@code this.capacity = this.capacity * 2}
+     * @implNote Could get Exponential *fast* if used multiple times because
+     *           {@code this.capacity = this.capacity * 2}
      */
     public void resize() {
         this.capacity *= 2;
@@ -173,61 +172,66 @@ public class MinHeap {
     /**
      * Deletes the specified index
      * 
-     * @implNote not implemented
      * @param index
      */
-    public void delete() {
-
-        /* IMPLEMENTATION:
-         *
-         * 
-         * 1 - Save first element
-         * 2 - Swap (first, last)
-         * 3 - decrease size
-         * 4 - trickle down
-         * 
-         * --------------------------------
-         * 
-         * 1 - Check Parent -> children (l/r)
-         * 2 - Swap with less (trickledown (current_index))
-         */
-        //int save = this.data[this.current_size - 1];
-        swap(0, (this.current_size - 1));
+    public void delete(int index) {
+        // int save = this.data[this.current_size - 1];
+        swap(index, (this.current_size - 1));
         this.current_size--;
-        trickleDown(0);
+        trickleDown(index);
 
-        
         return;
     }
 
+    public void remove(int value) {
+        // Find the index of the value
+        int index = -1;
+        index = this.findElement(value, 0);
+
+        // If the value is not found, return
+        if (index == -1) {
+            return;
+        }
+
+        delete(index);
+    }
+
+    public int findElement(int value, int index) {
+        if (index >= this.current_size) {
+            return -1;
+        }
+        if (this.data[index] == value) {
+            return index;
+        }
+
+        // Recursively search in the left and right subtrees
+        int leftIndex = findElement(value, 2 * index + 1);
+        if (leftIndex != -1) {
+            return leftIndex;
+        }
+        int rightIndex = findElement(value, 2 * index + 2);
+        if (rightIndex != -1) {
+            return rightIndex;
+        }
+
+        return -1;
+    }
+
     /**
-     * Copied from StackOverflow PseudoCode and adapted to work here
-     * @see https://stackoverflow.com/questions/8964279/coding-a-basic-pretty-printer-for-trees-in-java
+     * Prints the MinHeap tree as a tree like shape
      */
-    public void printSubtree( int indent, int index ) {
-        for( int i = 0; i < indent; ++i) {
-          System.out.print(" ");
+    public void printHeap() {
+        int i = 0;
+        int k = 1;
+        while (i < this.current_size) {
+            while ((i < k) && (i < this.current_size)) {
+                System.out.print(this.data[i] + " ");
+                i++;
+            }
+            System.out.println();
+            k = k * 2 + 1;
         }
-        
-        Integer leftChild = (index - 1) / 2;
-
-        if(leftChild == null) { // has left child
-          System.out.println("(" + this.data[index]);     
-          printSubtree(indent + 1, 2 * index + 1); //this is a recursive call, alternatively use the indent formula above if you don't use recursion
-          printSubtree(indent + 1, 2 * index + 2);
-      
-          //we have a new line so print the indent again
-          for( int i = 0; i < indent; ++i) {
-            System.out.print(" ");
-          }
-          System.out.println(")"); 
-        } else if( /*  */) {
-          System.out.println(this.data[index]);
-        } else { //empty/non existing node
-          System.out.println("()");
-        }
-      }
-
+    }
 
     /**
      * Returns the MinHeap tree as an array
@@ -253,20 +257,29 @@ public class MinHeap {
         heap.add(14);
         heap.add(27);
         heap.add(5);
-        
+
         System.out.println("[PRE] Resize: " + heap.getCapacity());
         heap.resize();
         System.out.println("[POST] Resize: " + heap.getCapacity());
 
-        
-        System.out.println("[PRE] Delete: " + heap);
-        heap.delete();
-        System.out.println("[POST] Delete: " + heap);
+        heap.printHeap();
 
-        heap.printSubtree(1, 0);
+        System.out.println();
+        System.out.println();
+        System.out.println();
 
+        System.out.println("[PRE] Delete (14): " + heap);
+        heap.printHeap();
+        heap.remove(14);
+        System.out.println("[POST] Delete (14): " + heap);
+        heap.printHeap();
+        System.out.println("[PRE] Delete (16): " + heap);
+        heap.printHeap();
+        heap.remove(16);
+        System.out.println("[POST] Delete (16): " + heap);
+        heap.printHeap();
 
-        System.out.println("[FINAL]: " +heap);
+        System.out.println("[FINAL]: " + heap);
         System.out.println(heap.getCapacity());
     }
 }

@@ -60,5 +60,6 @@
         "2nd Semester/Text Based Adventure Game",
         "2nd Semester"
     ],
-    "markdown.validate.enabled": false
+    "markdown.validate.enabled": false,
+    "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }
