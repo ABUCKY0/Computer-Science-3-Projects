@@ -1,177 +1,28 @@
+// .vscode/launch.json
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
-            "type": "java",
-            "name": "MinHeap",
-            "request": "launch",
-            "mainClass": "Heap.Java.MinHeap",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "AdventureGame",
-            "request": "launch",
-            "mainClass": "AdventureGame",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "Room",
-            "request": "launch",
-            "mainClass": "Room",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "Set",
-            "request": "launch",
-            "mainClass": "Set",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "DLinkedListQueue",
-            "request": "launch",
-            "mainClass": "DLinkedListQueue",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "Queue",
-            "request": "launch",
-            "mainClass": "Queue",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "StdAudio",
-            "request": "launch",
-            "mainClass": "StdAudio",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "RingBufferTester",
-            "request": "launch",
-            "mainClass": "RingBufferTester",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "Doubly_LL_Queue",
-            "request": "launch",
-            "mainClass": "Doubly_LL_Queue",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "GuitarHeroLite",
-            "request": "launch",
-            "mainClass": "GuitarHeroLite",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "Stack_NC",
-            "request": "launch",
-            "mainClass": "Stack_NC",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "Stack",
-            "request": "launch",
-            "mainClass": "Stack",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "CSLinkedlist",
-            "request": "launch",
-            "mainClass": "CSLinkedlist",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "DLinkedlist",
-            "request": "launch",
-            "mainClass": "DLinkedlist",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "DLinkedlist",
-            "request": "launch",
-            "mainClass": "lists.DLinkedlist",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "SLinkedlist",
-            "request": "launch",
-            "mainClass": "SLinkedlist.SLinkedlist",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "type": "java",
-            "name": "SLinkedlist",
-            "request": "launch",
-            "mainClass": "SLinkedlist",
-            "projectName": "Computer-Science-3-Projects_96420cd"
-        },
-        {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "enter program name, for example ${workspaceFolder}/a.out",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-        {
-            "name": "(gdb) Attach",
-            "type": "cppdbg",
-            "request": "attach",
-            "program": "enter program name, for example ${workspaceFolder}/a.out",
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-        {
-            "name": "Python: Module",
-            "type": "python",
-            "request": "launch",
-            "module": "recipeBookProject.linked_lists.singly_linked_list",
-            "cwd": "${workspaceFolder}/3 - Topic #3 Linked Lists/recipeBookProject"
-        }
+      {
+        "name": "C++ Debug",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${fileDirname}/run.out", // Replace with your actual binary name
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${fileDirname}", // Set the working directory to the open file's directory
+        "environment": [],
+        "externalConsole": false,
+        "MIMode": "gdb",
+        "setupCommands": [
+          {
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+          }
+        ],
+        "preLaunchTask": "C++ Build",
+        "miDebuggerPath": "/usr/bin/gdb"  // Replace with the path to your GDB executable
+      }
     ]
-}
+  }
+  

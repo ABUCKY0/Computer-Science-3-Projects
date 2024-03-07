@@ -1,5 +1,5 @@
-#ifndef TREE_H
-#define TREE_H
+#ifndef CUSTREE_H
+#define CUSTREE_H
 
 
 #include <iostream>
@@ -7,7 +7,7 @@
 #include <cmath>
 #include <list>
 #include <string>
-#include "Nodes/TreeNode.h"
+#include "TreeNode.h"
 
 
 using namespace std;

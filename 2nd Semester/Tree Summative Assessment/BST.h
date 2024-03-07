@@ -3,7 +3,7 @@
 
 
 #include "Tree.h"
-#include "Nodes/TreeNode.h"
+#include "TreeNode.h"
 class BST : public Tree{
     public:
     BST(int data);
@@ -19,6 +19,25 @@ class BST : public Tree{
     TreeNode* inOrderSuccessor(TreeNode* node);
     TreeNode *inOrderPredecessor(TreeNode *node);
 
+
+    void traversePreOrder();
+    void traversePreOrder(TreeNode* node);
+
+    void traverseInOrder();
+    void traverseInOrder(TreeNode* node);
+
+    void traversePostOrder();
+    void traversePostOrder(TreeNode* node);
+
+
+    void prettyPrint();
+
+    protected:
+    void prettyPrint(TreeNode* node, int level);
+    public:
+
+    void printLeafNodes();
+    void printLeafNodes(TreeNode* node);
 };
 
 int main();
