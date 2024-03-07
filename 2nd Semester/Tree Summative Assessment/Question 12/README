@@ -1,0 +1,16 @@
+# 13
+
+Binary Trees are any tree with a value and 2 'child' nodes. Included are BSTs, Red-Black trees, 
+```
+    13
+   /   \
+20      22
+```
+Binary Search Trees are binary trees, but the left child is always smaller than the parent node's value, and the right node is always equal to or bigger than the parent node. BSTs are useful for searching, since all operations are O(log(n)) 
+```
+      13 
+   /      \
+12          22
+           /   \
+        21      23
+```

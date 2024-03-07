@@ -28,7 +28,7 @@ Tree::Tree() {
  */
 int Tree::getSize() { return this->size; }
 
-TreeNode *Tree::createNode(int data, TreeNode *l, TreeNode* r) {
+TreeNode* Tree::createNode(int data, TreeNode *l, TreeNode* r) {
   TreeNode *newNode = new TreeNode;
   newNode->data = data;
   newNode->left = l;

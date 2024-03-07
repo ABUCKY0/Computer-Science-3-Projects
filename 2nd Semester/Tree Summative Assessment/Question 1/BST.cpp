@@ -105,34 +105,66 @@ bool BST::search(int data, TreeNode *node)
     }
 }
 
-/*
+
+TreeNode* BST::remove(TreeNode* root, int value) {
+    if (root == nullptr) {
+        return root;
+    }
+    if (value < root->data) {
+        root->left = remove(root->left, value);
+    }
+    else if (value > root->data) {
+        root->right = remove(root->right, value);
+    }
+    else {
+        if (root->left == nullptr) {
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if (root->right == nullptr) {
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
+        }
+        TreeNode* temp = ios(root->right);
+        root->data = temp->data;
+        root->right = remove(root->right, temp->data);
+    }
+
+    return root;
+ }
+
 TreeNode* BST::ios(TreeNode* node) {
-    if (node->right == nullptr) {
-        return node;
+    if (node->left != nullptr) {
+        return ios(node->left);
     }
-    return ios(node->right);
+    return node;
 }
 
-TreeNode* BST::inOrderSuccessor(TreeNode* node)
-{
-    // left of the root and all the way right.
-    if (node->left == nullptr)
-    {
-        return nullptr;
-    }
-    else if (node->left->right == nullptr)
-    {
-        return node->left;
-    }
-}
+// TreeNode* BST::inOrderSuccessor(TreeNode* node)
+// {
+//     // left of the root and all the way right.
+//     if (node->left == nullptr)
+//     {
+//         return nullptr;
+//     }
+//     else if (node->left->right == nullptr)
+//     {
+//         return node->left;
+//     }
+// }
 
-TreeNode *BST::inOrderPredecessor(TreeNode *node)
-{
-    // right of the root and all the way left
-    return nullptr;
-}
+// /** 
+//  * @note Not Implemented
+// //
+// TreeNode *BST::inOrderPredecessor(TreeNode *node)
+// {
+//     // right of the root and all the way left
+//     return nullptr;
+// }
 
-*/
+// */
 
 
 int main()
@@ -145,13 +177,20 @@ int main()
     bst->add(16);
     bst->add(30);
     
-    cout << "In Order: ";
-    bst->printInOrder();
+    //cout << "In Order: ";
+    //bst->printInOrder();
     
 
     // search
     cout << "Search 5: " << bst->search(5) << endl;
     cout << "Search 15: " << bst->search(15) << endl;
+
+    // remove
+    
+    bst->printInOrder();
+    cout << endl;
+    bst->remove(bst->root, 7);
+    bst->printInOrder();
 
     /*
     cout << "In Order: ";
