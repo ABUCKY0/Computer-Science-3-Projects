@@ -3,13 +3,27 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "type": "java",
+        "name": "HashTable",
+        "request": "launch",
+        "mainClass": "HashTable.Java.HashTable",
+        "projectName": "Computer-Science-3-Projects_96420cd"
+      },
+      {
+        "type": "java",
+        "name": "MinHeap",
+        "request": "launch",
+        "mainClass": "Heap.Java.MinHeap",
+        "projectName": "Computer-Science-3-Projects_96420cd"
+      },
+      {
         "name": "C++ Debug",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${fileDirname}/run.out", // Replace with your actual binary name
+        "program": "${fileDirname}/run.out",
         "args": [],
         "stopAtEntry": false,
-        "cwd": "${fileDirname}", // Set the working directory to the open file's directory
+        "cwd": "${fileDirname}",
         "environment": [],
         "externalConsole": false,
         "MIMode": "gdb",
@@ -21,7 +35,7 @@
           }
         ],
         "preLaunchTask": "C++ Build",
-        "miDebuggerPath": "/usr/bin/gdb"  // Replace with the path to your GDB executable
+        "miDebuggerPath": "/usr/bin/gdb"
       }
     ]
   }

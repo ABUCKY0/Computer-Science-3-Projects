@@ -1,9 +1,9 @@
 #ifndef BST_H
 #define BST_H
 
-
 #include "Tree.h"
 #include "TreeNode.h"
+#include "DoublyLinkedList.h"
 class BST : public Tree{
     public:
     BST(int data);
@@ -25,19 +25,16 @@ class BST : public Tree{
 
     void traverseInOrder();
     void traverseInOrder(TreeNode* node);
+    void traverseInOrderIterative(TreeNode* root);
 
     void traversePostOrder();
     void traversePostOrder(TreeNode* node);
 
-
-    void prettyPrint();
-
-    protected:
-    void prettyPrint(TreeNode* node, int level);
-    public:
-
     void printLeafNodes();
     void printLeafNodes(TreeNode* node);
+
+    Node* convertToDoublyLinkedList();
+    void convertToDoublyLinkedList(TreeNode* treeNode, Node** head, Node** tail);
 };
 
 int main();

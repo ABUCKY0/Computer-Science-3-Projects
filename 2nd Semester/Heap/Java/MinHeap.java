@@ -1,5 +1,8 @@
 package Heap.Java;
 
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+
 public class MinHeap {
     private int[] data;
     private int capacity;
@@ -121,26 +124,24 @@ public class MinHeap {
      * @param index the index to move
      */
     public void trickleDown(int index) {
-        Integer lChild = this.getLeftChild(index);
-        Integer rChild = this.getRightChild(index);
-        if (lChild == null) {
-            return;
-        }
-        if (lChild < this.data[index]) {
-            swap(2 * index + 1, index);
-            trickleDown(2 * index + 1); // update index
-            return;
-        }
-        // If the right is null, and you've made it this far, then you're in the right
-        // place and exit
-        if (rChild == null) {
-            return;
-        }
-        // If the child is less than the index, swap them and continue trickling down
-        if (rChild < this.data[index]) {
-            swap(2 * index + 2, index);
-            trickleDown(2 * index + 2); // update index
-            return;
+        int smallest = index; // Initialize smallest as root
+        int left = 2 * index + 1; // left = 2*i + 1
+        int right = 2 * index + 2; // right = 2*i + 2
+    
+        // If left child is smaller than root
+        if (left < current_size && data[left] < data[smallest])
+            smallest = left;
+    
+        // If right child is smaller than smallest so far
+        if (right < current_size && data[right] < data[smallest])
+            smallest = right;
+    
+        // If smallest is not root
+        if (smallest != index) {
+            swap(index, smallest);
+    
+            // Recursively heapify the affected sub-tree
+            trickleDown(smallest);
         }
     }
 
@@ -196,6 +197,22 @@ public class MinHeap {
         delete(index);
     }
 
+    public int remove() {
+        if (this.current_size == 0) {
+            throw new NoSuchElementException("Heap is empty");
+        }
+
+        // Save the minimum value and remove it from the heap
+        int min = this.data[0];
+        this.data[0] = this.data[this.current_size - 1];
+        this.current_size--;
+
+        // Restore the heap property
+        this.trickleDown(0);
+
+        return min;
+    }
+
     public int findElement(int value, int index) {
         if (index >= this.current_size) {
             return -1;
@@ -215,6 +232,25 @@ public class MinHeap {
         }
 
         return -1;
+    }
+
+    public int[] heapSort() {
+        // Create a copy of the original heap
+        int[] array = Arrays.copyOf(this.data, this.current_size);
+    
+        // Create a new MinHeap from the copied array
+        MinHeap heapCopy = new MinHeap(array.length);
+        for (int value : array) {
+            heapCopy.add(value);
+        }
+    
+        // Repeatedly remove the minimum element from the heap copy and place it into the sorted array
+        int[] sorted = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            sorted[i] = heapCopy.remove();
+        }
+    
+        return sorted;
     }
 
     /**
@@ -277,7 +313,21 @@ public class MinHeap {
         heap.printHeap();
         heap.remove(16);
         System.out.println("[POST] Delete (16): " + heap);
-        heap.printHeap();
+
+        System.out.println(heap);
+
+        System.out.println("[HEAPSORT] ");
+        int[] sorted = heap.heapSort();
+        StringBuilder s = new StringBuilder("[");
+        for (int i = 0; i < heap.current_size; i++) {
+            s.append(sorted[i]);
+            if (i + 1 < heap.current_size) {
+                s.append(", ");
+            }
+        }
+        s.append("]");
+
+        System.out.println("Sorted " + s);
 
         System.out.println("[FINAL]: " + heap);
         System.out.println(heap.getCapacity());
