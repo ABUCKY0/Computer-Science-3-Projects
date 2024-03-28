@@ -1,146 +1,76 @@
 package HashTable.Java;
 
-public class HashTable {
-
+@SuppressWarnings("unchecked")
+public class HashTable<E> {
+    private E[] array;
     private int capacity;
     private int size;
-    private String[] string_arr;
-    private Double[] numerical_arr;
+    private int resizeAmt;
 
     /**
-     * HashTable constructor
      * 
-     * @param capacity max capacity
-     * @param data     string to be stored
-     * @implNote Time Complexity: O()
+     * @param capacity
+     * @param data
      */
-    public HashTable(int capacity, String data) {
-
+    public HashTable(int capacity, E data) {
         this.capacity = capacity;
-
-        // Keep it Odd
-        if (capacity % 2 == 0) {
-            this.capacity++;
-        }
-        this.string_arr = new String[this.capacity];
-
-        int adder = 0;
-        for (int i = 0; i < data.length() - 1; i++) {
-            adder += Integer.parseInt(data.substring(i, i + 1));
-        }
-
-        // 0x7FFFFFFF is the maximum value of a 32-bit signed integer
-        int spot = (adder & 0x7FFFFFFF) % this.capacity;
-        this.string_arr[spot] = data;
-        this.size = 1;
-    }
-
-    /**
-     * HashTable constructor
-     * 
-     * @param capacity max capacity
-     * @param data     number to be stored
-     */
-    public HashTable(int capacity, Double data) {
-
-        this.capacity = capacity;
-
-        // Keep it Odd
         if (capacity % 2 == 0) {
             this.capacity++;
         }
 
-
-        this.numerical_arr = new Double[this.capacity];
-
-        int spot = (data.intValue() & 0x7FFFFFFF) % this.capacity;
-        this.numerical_arr[spot] = data;
+        int spot = this.hashCode(data);
+        this.array[spot] = data;
+        this.array = (E[]) new Object[this.capacity];
         this.size = 1;
+        this.resizeAmt = 0;
+
     }
 
     /**
-     * Hash function for string data
      * 
-     * @param data string to be hashed
-     * @return hash value
+     * @param data
+     * @return
      */
-    public int hashCode(String data) {
-        int adder = 0;
-        for (int i = 0; i < data.length() - 1; i++) {
-            adder += Integer.parseInt(data.substring(i, i + 1));
-        }
+    public int hashCode(E unformattedData) {
+        int returnval = 0;
+        if (unformattedData instanceof String) {
 
-        return (adder & 0x7FFFFFFF) % capacity;
+            for (int i = 0; i < ((String) unformattedData).length() - 1; i++) {
+                returnval += Integer.parseInt(((String) unformattedData).substring(i, i + 1));
+            }
+        } else if (unformattedData instanceof Double) {
+            returnval = (((Double) unformattedData).intValue() & 0x7FFFFFFF) % this.capacity;
+        } else {
+            throw new IllegalArgumentException();
+        }
+        return returnval;
     }
 
-    /**
-     * Hash function for numerical data
-     * 
-     * @param data number to be hashed
-     * @return hash value
-     */
-    public int hashCode(Double data) {
-        return (data.intValue() & 0x7FFFFFFF) % this.capacity;
-    }
+    public void insert(E unformattedData) {
 
-    /**
-     * Insert string data into the hash table
-     * 
-     * @param data string to be inserted
-     */
-    public void insert(String data) {
-        int spot = hashCode(data);
-        if (this.size == this.capacity) {
-            return;
-        }
-        if (string_arr[spot] == null) {
-            // Spot is Available
-            this.string_arr[spot] = data;
-            this.size++;
-            return; // 3/26 forgot to return out of here
-        }
-        // If spot is occupied, use quadratic probing.
-        spot = (spot + 1) % this.capacity;
-        int collisions = 1;
-        while (this.string_arr[spot] != null) {
-            // Keeps going until you make it to a null value.
-            collisions *= 2;
-            spot = (spot * collisions) % this.capacity;
-        }
-        this.string_arr[spot] = data;
-        this.size += 1;
-    }
-    
-    /**
-     * Insert numerical data into the hash table
-     * 
-     * @param data number to be inserted
-     */
-    public void insert(Double data) {
-        int spot = hashCode(data);
+        int spot = hashCode(unformattedData);
         // this.numerical_arr[spot] = data;
         // this.size++;
         if (this.size == this.capacity) {
             return;
         }
-        if (numerical_arr[spot] == null) {
-            //Spot is available
-            this.numerical_arr[spot] = data;
+        if (array[spot] == null) {
+            // Spot is available
+            this.array[spot] = unformattedData;
             this.size++;
             return; // 3/26 forgot to return out of here
         }
         // If spot is occupied, use quadratic or linear probing.
         spot = (spot + 1) % this.capacity;
         int collisions = 1;
-        while (this.numerical_arr[spot] != null) {
+        while (this.array[spot] != null) {
             collisions *= 2;
             spot = (spot * collisions) % this.capacity;
         }
-        this.numerical_arr[spot] = data;
+        this.array[spot] = unformattedData;
         this.size += 1;
     }
 
     public static void main(String[] args) {
-
     }
 }
