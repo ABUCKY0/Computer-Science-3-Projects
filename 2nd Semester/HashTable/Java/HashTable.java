@@ -5,10 +5,10 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class HashTable<E> {
-    private E[] array;
-    private int capacity;
-    private int size;
-    private int resizeAmt;
+    protected E[] array;
+    protected int capacity;
+    protected int size;
+    protected int resizeAmt;
 
     /**
      * Constructor for HashTable
@@ -60,33 +60,38 @@ public class HashTable<E> {
      * @param unformattedData data to be inserted
      * @note Time Complexity: O(1) average case, O(n) worst case
      */
-    public void insert(E unformattedData) {
+    public boolean insert(E unformattedData) {
+        boolean flag = true;
         if (this.size == this.capacity) {
-            return;
+            this.resize();
         }
-    
+
         int spot = hashCode(unformattedData) % (this.capacity - 1);
-    
+
         if (array[spot] == null) {
             this.array[spot] = unformattedData;
             this.size++;
-            return;
+            flag = false;
         }
-    
+
         // If spot is occupied, use quadratic probing.
-        int collisions = 1;
-        while (this.array[spot] != null) {
-            spot = (spot + collisions * collisions) % this.capacity;
-            spot = spot % this.capacity; // Ensure the spot is within the valid range
-            collisions++;
+        if (flag) {
+            int collisions = 1;
+            while (this.array[spot] != null) {
+                spot = (spot + collisions * collisions) % this.capacity;
+                spot = spot % this.capacity; // Ensure the spot is within the valid range
+                collisions++;
+            }
+
+            this.array[spot] = unformattedData;
+            this.size++;
+
         }
-    
-        this.array[spot] = unformattedData;
-        this.size++;
-    
+
         if (this.loadFactor() >= 0.45 || this.size >= this.capacity) {
             this.resize();
         }
+        return true;
     }
 
     /**
@@ -108,8 +113,6 @@ public class HashTable<E> {
     public int getCapacity() {
         return this.capacity;
     }
-
-
 
     /**
      * Get the element at a specific index in the hash table
@@ -178,18 +181,27 @@ public class HashTable<E> {
      * Remove a specific data from the hash table
      * 
      * @param data data to be removed
+     * @return Data Removed
      * @note Time Complexity: O(1) average case, O(n) worst case
      */
-    public void remove(E data) {
+    public E remove(E data) {
         int spot = hashCode(data);
+        int initialSpot = spot;
         while (array[spot] != null) {
             if (array[spot].equals(data)) {
-                array[spot] = null;
+                E removedElement = array[spot];
+                array[spot] = null; // Mark the element as removed
+                // Optionally update the size of the hash table
                 size--;
-                return;
+                return removedElement;
             }
-            spot = (spot + 1) % this.capacity;
+            spot = (spot + 1) % capacity;
+            // If we have looped back to the initial spot, break to avoid infinite loop
+            if (spot == initialSpot)
+                break;
         }
+        // Element not found
+        return null;
     }
 
     /**
@@ -206,18 +218,37 @@ public class HashTable<E> {
      * Search for a specific data in the hash table
      * 
      * @param data data to be searched
-     * @return the data if found, null otherwise
+     * @return true if found, false otherwise
      * @note Time Complexity: O(1) average case, O(n) worst case
      */
-    public E search(E data) {
-        int spot = hashCode(data);
-        while (array[spot] != null) {
-            if (array[spot].equals(data)) {
-                return array[spot];
+    public boolean search(E data) {
+        int index = hashCode(data);
+        System.out.println(index);
+        System.out.println(this.array[index]);
+        int initialIndex = index;
+
+        if (this.array[index] != null && this.array[index].equals(data))
+            return true;
+        else if (this.array[index] != null && array[rehash(data)].equals(data))
+            return true;
+        else {
+            // Loop until we find the element or encounter a null position
+            while (array[index] != null) {
+                // If the element is found at the current index, return true
+                if (array[index] == null)
+                    continue;
+                if (array[index].equals(data)) {
+                    return true;
+                }
+                // Move to the next position using linear probing
+                index = (index + 1) % capacity;
+                // If we have looped back to the initial index, break to avoid infinite loop
+                if (index == initialIndex)
+                    break;
             }
-            spot = (spot + 1) % this.capacity;
         }
-        return null;
+        // Element not found
+        return false;
     }
 
     /**
@@ -295,17 +326,21 @@ public class HashTable<E> {
         hashTable.insert("data1");
         hashTable.insert("data2");
         hashTable.insert("data3");
+        hashTable.insert("data4");
+        hashTable.insert("data8");
+        hashTable.insert("data7");
+        hashTable.insert("data6");
+        hashTable.insert("data5");
         System.out.println("Size after inserting 3 elements: " + hashTable.getSize()); // Should print: 4
 
         // Test searching for data in the HashTable
-        System.out.println("Search for 'data1': " + (hashTable.search("data1") != null)); // Should print: true
-        System.out.println("Search for 'data4': " + (hashTable.search("data4") != null)); // Should print: false
+        System.out.println("Search for 'data1': " + (hashTable.search("data1"))); // Should print: true
+        System.out.println("Search for 'data4': " + (hashTable.search("data4"))); // Should print: false
 
         // Test removing data from the HashTable
         hashTable.remove("data1");
         System.out.println("Size after removing 'data1': " + hashTable.getSize()); // Should print: 3
-        System.out.println("Search for 'data1' after removal: " + (hashTable.search("data1") != null)); // Should print:
-                                                                                                        // false
+        System.out.println("Search for 'data1' after removal: " + (hashTable.search("data1"))); // Should print: false
 
         // Test resizing the HashTable
         for (int i = 4; i <= 10; i++) {
@@ -313,7 +348,6 @@ public class HashTable<E> {
         }
         System.out.println("Size after inserting 7 more elements: " + hashTable.getSize()); // Should print: 10
         System.out.println("Capacity after inserting 7 more elements: " + hashTable.getCapacity()); // Should print: 17
-                                                                                                    // (if resize was
-                                                                                                    // triggered)
+                                                                                                    // (If Resized)
     }
 }
