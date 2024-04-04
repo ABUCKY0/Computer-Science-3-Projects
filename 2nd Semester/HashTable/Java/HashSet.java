@@ -62,13 +62,13 @@ public class HashSet<E> extends HashTable<E> {
     }
 
 
-    // public List<E> toList() {
-    //     return Arrays.asList(this.array);
-    // }
-    
-    public  List<E> toList() { 
-        return this.getValues();
+    public List<E> toList() {
+        return Arrays.asList(this.array);
     }
+    
+    // public  List<E> toList() { 
+    //     return this.getValues();
+    // }
 
     public static void main(String[] args) {
 
