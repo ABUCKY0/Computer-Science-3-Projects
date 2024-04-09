@@ -4,6 +4,13 @@
     "configurations": [
       {
         "type": "java",
+        "name": "HashMap",
+        "request": "launch",
+        "mainClass": "HashTable.Java.HashMap",
+        "projectName": "Computer-Science-3-Projects_96420cd"
+      },
+      {
+        "type": "java",
         "name": "HashSet",
         "request": "launch",
         "mainClass": "HashTable.Java.HashSet",
