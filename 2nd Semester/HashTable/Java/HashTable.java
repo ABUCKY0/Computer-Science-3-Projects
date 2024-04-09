@@ -26,7 +26,6 @@ public class HashTable<E> {
         this.array = (E[]) new Object[this.capacity];
 
         int spot = this.hashCode(data);
-        System.out.println(spot);
         this.array[spot] = data;
         this.size = 1;
         this.resizeAmt = 0;
@@ -223,8 +222,6 @@ public class HashTable<E> {
      */
     public boolean search(E data) {
         int index = hashCode(data);
-        System.out.println(index);
-        System.out.println(this.array[index]);
         int initialIndex = index;
 
         if (this.array[index] != null && this.array[index].equals(data))
