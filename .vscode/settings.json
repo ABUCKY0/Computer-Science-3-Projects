@@ -60,5 +60,8 @@
         "2nd Semester/Text Based Adventure Game",
         "2nd Semester"
     ],
-    "markdown.validate.enabled": false
+    "markdown.validate.enabled": false,
+    "editor.tabSize": 2,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.format.enabled": true
 }
