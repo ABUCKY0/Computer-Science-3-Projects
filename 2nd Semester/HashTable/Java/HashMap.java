@@ -1,8 +1,13 @@
 package HashTable.Java;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Arrays;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.util.logging.*;
+import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class HashMap<E> { // extends HashSet<E> {
@@ -10,9 +15,11 @@ public class HashMap<E> { // extends HashSet<E> {
   private LinkedList<E>[] hashTable; // This is an array of LinkedList<E>
   private int size;
   private int capacity;
+  public static Logger LOGGER = Logger.getLogger(HashMap.class.getName());
 
   public HashMap(int capacity, E data) {
     // super(capacity, data);
+
     this.capacity = capacity;
     this.hashTable = new LinkedList[capacity];
     int key = hashCode(data);
@@ -24,19 +31,21 @@ public class HashMap<E> { // extends HashSet<E> {
 
   public HashMap(int capacity) {
     // super(capacity, null);
+    LOGGER.info("Creating a new HashMap with capacity " + capacity + " and no data.");
     this.hashTable = new LinkedList[capacity];
 
+    // ("this.size = 0; this.capacity = " + capacity);
     this.size = 0;
     this.capacity = capacity;
   }
 
   public int getKey(E data) {
-    return hashCode();
+    return this.hashCode(data);
   }
 
   public boolean insert(E data) {
     int key = this.getKey(data);
-    if (hashTable[key].contains(data)) {
+    if (hashTable[key] != null && hashTable[key].contains(data)) {
       return false;
     } else {
       if (this.hashTable[key] == null) {
@@ -77,8 +86,8 @@ public class HashMap<E> { // extends HashSet<E> {
   }
 
   public boolean containsValue(E data) {
-    for (int i = 0; i < capacity; i++) {
-      if (this.hashTable[i].contains(data) == true) {
+    for (int i = 0; i < this.capacity; i++) {
+      if (this.hashTable[i] != null && this.hashTable[i].contains(data) == true) {
         return true;
       }
     }
@@ -91,7 +100,7 @@ public class HashMap<E> { // extends HashSet<E> {
 
   public ArrayList<Integer> getKeySet() {
     ArrayList<Integer> keys = new ArrayList<>();
-    for (int i = 0; i < this.size; i++) {
+    for (int i = 0; i < this.capacity; i++) {
       if (this.hashTable[i] != null) {
         keys.add(i);
       }
@@ -109,14 +118,57 @@ public class HashMap<E> { // extends HashSet<E> {
   }
 
   public ArrayList<E> bucketSort() {
-    return new ArrayList<>();
+    // Loop through each LinkedList, and if the size is greater than 1, sort;
+    for (int i = 0; i < this.hashTable.length; i++) {
+      if (this.hashTable[i].size() > 1) {
+        LinkedList<E>[] temp = (LinkedList<E>[]) this.hashTable[i].toArray();
+        Arrays.sort(temp);
+        this.hashTable[i] = new LinkedList<E>();
+        for (int j = 0; j < temp.length; j++) {
+          this.hashTable[i].add((E) temp[j]);
+        }
+      }
 
-    
-    
+    }
+    // Now that the Array is sorted, add each bucket to an ArrayList.
+    ArrayList<E> sorted = new ArrayList<>();
+    for (int j = 0; j < this.hashTable.length; j++) {
+      sorted.addAll(this.hashTable[j]);
+    }
+
+    return sorted;
+
   }
 
   public String toString() {
-    return new String();
+    StringBuilder sb = new StringBuilder();
+    sb.append("[");
+    for (int i = 0; i < this.hashTable.length; i++) {
+      sb.append("b").append(i + 1);
+      if (i != this.hashTable.length - 1) {
+        sb.append(", ");
+      }
+    }
+    sb.append("]\n");
+
+    int maxBucketSize = Arrays.stream(this.hashTable).filter(bucket -> bucket != null).mapToInt(LinkedList::size).max()
+        .orElse(0);
+
+    for (int j = 0; j < maxBucketSize; j++) {
+      for (int i = 0; i < this.hashTable.length; i++) {
+        if (this.hashTable[i] != null && j < this.hashTable[i].size()) {
+          sb.append(this.hashTable[i].get(j));
+        } else {
+          sb.append(" ");
+        }
+        if (i != this.hashTable.length - 1) {
+          sb.append("\t");
+        }
+      }
+      sb.append("\n");
+    }
+
+    return sb.toString();
   }
 
   /**
@@ -142,7 +194,51 @@ public class HashMap<E> { // extends HashSet<E> {
     return returnval % this.capacity; // Ensure the returned index is within the valid range
   }
 
-  public static void main(String args[]) {
-    HashMap<Integer> e = new HashMap<Integer>(10, 1);
+  public static void main(String[] args) {
+
+    try {
+      LogManager.getLogManager().readConfiguration(
+          new FileInputStream("/workspaces/Computer-Science-3-Projects/other utilities/logging.properties"));
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, "Could not read 'log.properties' file.", e);
+      try {
+        LogManager.getLogManager().readConfiguration(new FileInputStream("logging.properties"));
+      } catch (IOException x) {
+        LOGGER.log(Level.SEVERE, "Could not read 'log.properties' file.", x);
+      }
+    }
+
+
+    HashMap<Integer> map = new HashMap<>(10);
+    LOGGER.info("HashMap after constructor: " + map.toString());
+
+    map.insert(1);
+    LOGGER.info("HashMap after inserting 1: " + map.toString());
+
+    Integer removedValue = map.remove(1);
+    LOGGER.info("Removed value: " + removedValue);
+    LOGGER.info("HashMap after removing 1: " + map.toString());
+
+    map.clear();
+    LOGGER.info("HashMap after clear: " + map.toString());
+
+    map.insert(1);
+    LOGGER.info("HashMap after inserting 1: " + map.toString());
+
+    boolean containsKey = map.containsKey(map.getKey(1));
+    LOGGER.info("Contains key for 1: " + containsKey);
+
+    boolean containsValue = map.containsValue(1);
+    LOGGER.info("Contains value 1: " + containsValue);
+
+    for (int i = 2; i <= 20; i++) {
+      map.insert(i);
+  }
+
+    ArrayList<Integer> keys = map.getKeySet();
+    LOGGER.info("Key set: " + keys.toString());
+
+    ArrayList<Integer> values = map.getValues(map.getKey(1));
+    LOGGER.info("Values for key 1: " + values.toString());
   }
 }
