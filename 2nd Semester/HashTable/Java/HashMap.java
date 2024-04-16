@@ -144,9 +144,16 @@ public class HashMap<E> { // extends HashSet<E> {
     StringBuilder sb = new StringBuilder();
     sb.append("[");
     for (int i = 0; i < this.hashTable.length; i++) {
-      sb.append("b").append(i + 1);
-      if (i != this.hashTable.length - 1) {
-        sb.append(", ");
+      if (this.hashTable[i] == null) {
+        sb.append("null");
+        if (i != this.hashTable.length - 1) {
+          sb.append(",\t");
+        }
+      } else {
+        sb.append("l").append(i + 1);
+        if (i != this.hashTable.length - 1) {
+          sb.append(",\t");
+        }
       }
     }
     sb.append("]\n");
@@ -157,12 +164,9 @@ public class HashMap<E> { // extends HashSet<E> {
     for (int j = 0; j < maxBucketSize; j++) {
       for (int i = 0; i < this.hashTable.length; i++) {
         if (this.hashTable[i] != null && j < this.hashTable[i].size()) {
-          sb.append(this.hashTable[i].get(j));
+          sb.append(String.format("%-8s", this.hashTable[i].get(j)));
         } else {
-          sb.append(" ");
-        }
-        if (i != this.hashTable.length - 1) {
-          sb.append("\t");
+          sb.append(String.format("%-8s", " "));
         }
       }
       sb.append("\n");
@@ -208,7 +212,6 @@ public class HashMap<E> { // extends HashSet<E> {
       }
     }
 
-
     HashMap<Integer> map = new HashMap<>(10);
     LOGGER.info("HashMap after constructor: " + map.toString());
 
@@ -232,13 +235,18 @@ public class HashMap<E> { // extends HashSet<E> {
     LOGGER.info("Contains value 1: " + containsValue);
 
     for (int i = 2; i <= 20; i++) {
+      if (i == 3 || i == 13 || i == 8 || i == 18) {
+        continue;
+      }
       map.insert(i);
-  }
+    }
 
     ArrayList<Integer> keys = map.getKeySet();
     LOGGER.info("Key set: " + keys.toString());
 
     ArrayList<Integer> values = map.getValues(map.getKey(1));
     LOGGER.info("Values for key 1: " + values.toString());
+
+    LOGGER.info("HashMap ToString:\n" + map.toString());
   }
 }
