@@ -1,13 +1,13 @@
 package HashTable.Java;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Arrays;
 import java.io.IOException;
-import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.logging.*;
-import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class HashMap<E> { // extends HashSet<E> {
@@ -17,6 +17,34 @@ public class HashMap<E> { // extends HashSet<E> {
   private int capacity;
   public static Logger LOGGER = Logger.getLogger(HashMap.class.getName());
 
+  /**
+   * Implements a Comparator for the two types this class supports
+   *
+   * @implNote Time Complexity: O(1)
+   */
+  public Comparator<E> hashmapcompare =
+      new Comparator<E>() {
+        @Override
+        public int compare(E p1, E p2) {
+          if (p1 instanceof String && p2 instanceof String) {
+            return ((String) p1).compareTo((String) p2);
+          } else if (p1 instanceof Integer && p2 instanceof Integer) {
+            return ((Integer) p1).compareTo((Integer) p2);
+          } else if (p1 instanceof Double && p2 instanceof Double) {
+            return ((Double) p1).compareTo((Double) p2);
+          } else {
+            throw new IllegalArgumentException("Invalid type for comparison");
+          }
+        }
+      };
+
+  /**
+   * Constructor with Data
+   *
+   * @param capacity The maximum capacity of the HashMap
+   * @param data a data source to insert into the array.
+   * @implNote Time Complexity: O(1)
+   */
   public HashMap(int capacity, E data) {
     // super(capacity, data);
 
@@ -29,9 +57,14 @@ public class HashMap<E> { // extends HashSet<E> {
     this.size = 1;
   }
 
+  /**
+   * Constructor
+   *
+   * @param capacity The maximum capacity of the HashMap
+   * @implNote Time Complexity: O(1)
+   */
   public HashMap(int capacity) {
     // super(capacity, null);
-    LOGGER.info("Creating a new HashMap with capacity " + capacity + " and no data.");
     this.hashTable = new LinkedList[capacity];
 
     // ("this.size = 0; this.capacity = " + capacity);
@@ -39,10 +72,24 @@ public class HashMap<E> { // extends HashSet<E> {
     this.capacity = capacity;
   }
 
+  /**
+   * Gloriified HashCode wrapper
+   *
+   * @param data the data to hash
+   * @return the hashcode
+   * @see #hashCode(Object)
+   */
   public int getKey(E data) {
     return this.hashCode(data);
   }
 
+  /**
+   * Inserts the provided data into the HashMap.
+   *
+   * @param data the data to be inserted
+   * @return true if the data was inserted successfully, false otherwise
+   * @implNote Time Complexity: O(1)
+   */
   public boolean insert(E data) {
     int key = this.getKey(data);
     if (hashTable[key] != null && hashTable[key].contains(data)) {
@@ -61,6 +108,13 @@ public class HashMap<E> { // extends HashSet<E> {
     }
   }
 
+  /**
+   * Removes the provided data from the HashMap.
+   *
+   * @param data the data to be removed
+   * @return the removed data if it was found, null otherwise
+   * @implNote Time Complexity: O(1)
+   */
   public E remove(E data) {
     int key = this.getKey(data);
     if (this.hashTable[key].contains(data)) {
@@ -72,6 +126,11 @@ public class HashMap<E> { // extends HashSet<E> {
     }
   }
 
+  /**
+   * Clears the HashMap.
+   *
+   * @implNote Time Complexity: O(1)
+   */
   public void clear() {
     this.hashTable = new LinkedList[this.capacity];
     this.size = 0;
@@ -81,10 +140,24 @@ public class HashMap<E> { // extends HashSet<E> {
     return this.hashTable.clone();
   }
 
+  /**
+   * Checks if the HashMap contains the provided key.
+   *
+   * @param key the key to be checked
+   * @return true if the key is found, false otherwise
+   * @implNote Time Complexity: O(1)
+   */
   public boolean containsKey(int key) {
     return this.hashTable[key] != null;
   }
 
+  /**
+   * Checks if the HashMap contains the provided value.
+   *
+   * @param data the value to be checked
+   * @return true if the value is found, false otherwise
+   * @implNote Time Complexity: O(n)
+   */
   public boolean containsValue(E data) {
     for (int i = 0; i < this.capacity; i++) {
       if (this.hashTable[i] != null && this.hashTable[i].contains(data) == true) {
@@ -94,10 +167,22 @@ public class HashMap<E> { // extends HashSet<E> {
     return false;
   }
 
+  /**
+   * Checks if the HashMap is empty.
+   *
+   * @return true if the HashMap is empty, false otherwise
+   * @implNote Time Complexity: O(1)
+   */
   public boolean isEmpty() {
     return this.size == 0;
   }
 
+  /**
+   * Returns a set of all keys in the HashMap.
+   *
+   * @return an ArrayList of all keys
+   * @implNote Time Complexity: O(n)
+   */
   public ArrayList<Integer> getKeySet() {
     ArrayList<Integer> keys = new ArrayList<>();
     for (int i = 0; i < this.capacity; i++) {
@@ -108,6 +193,13 @@ public class HashMap<E> { // extends HashSet<E> {
     return keys;
   }
 
+  /**
+   * Returns all values at the provided index in the HashMap.
+   *
+   * @param index the index to get values from
+   * @return an ArrayList of all values at the index
+   * @implNote Time Complexity: O(1)
+   */
   public ArrayList<E> getValues(int index) { // return an array of all spots that have values
     ArrayList<E> values = new ArrayList<>();
     if (index > this.size) {
@@ -117,29 +209,31 @@ public class HashMap<E> { // extends HashSet<E> {
     return values;
   }
 
+  /**
+   * Sorts each LinkedList individually, then adds all elements one by one to an ArrayList
+   *
+   * @implNote Time Complexity: O()
+   * @return
+   */
   public ArrayList<E> bucketSort() {
-    // Loop through each LinkedList, and if the size is greater than 1, sort;
-    for (int i = 0; i < this.hashTable.length; i++) {
-      if (this.hashTable[i].size() > 1) {
-        LinkedList<E>[] temp = (LinkedList<E>[]) this.hashTable[i].toArray();
-        Arrays.sort(temp);
-        this.hashTable[i] = new LinkedList<E>();
-        for (int j = 0; j < temp.length; j++) {
-          this.hashTable[i].add((E) temp[j]);
-        }
+    ArrayList<E> result = new ArrayList<>();
+    for (LinkedList<E> bucket : hashTable) {
+      if (bucket != null) {
+        ArrayList<E> bucketList = new ArrayList<>(bucket);
+        Collections.sort(bucketList, this.hashmapcompare);
+        result.addAll(bucketList);
       }
-
     }
-    // Now that the Array is sorted, add each bucket to an ArrayList.
-    ArrayList<E> sorted = new ArrayList<>();
-    for (int j = 0; j < this.hashTable.length; j++) {
-      sorted.addAll(this.hashTable[j]);
-    }
-
-    return sorted;
-
+    return result;
   }
 
+  /**
+   * returns a string representing the builtin array (and linkedlists) logically
+   *
+   * @return a logical layout of the array
+   * @implNote Time Complexity: O(n) where n represents the number of individual elements across all
+   *     linkedlists
+   */
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("[");
@@ -158,8 +252,12 @@ public class HashMap<E> { // extends HashSet<E> {
     }
     sb.append("]\n");
 
-    int maxBucketSize = Arrays.stream(this.hashTable).filter(bucket -> bucket != null).mapToInt(LinkedList::size).max()
-        .orElse(0);
+    int maxBucketSize =
+        Arrays.stream(this.hashTable)
+            .filter(bucket -> bucket != null)
+            .mapToInt(LinkedList::size)
+            .max()
+            .orElse(0);
 
     for (int j = 0; j < maxBucketSize; j++) {
       for (int i = 0; i < this.hashTable.length; i++) {
@@ -180,7 +278,8 @@ public class HashMap<E> { // extends HashSet<E> {
    *
    * @param unformattedData data to be hashed
    * @return hashed value
-   * @note Time Complexity: O(n) for String, O(1) for Double
+   * @implNote Time Complexity: O(n) for String, O(1) for Double
+   * @throws IllegalArgumentException if datatype isn't Double, Int, or String
    */
   public int hashCode(E unformattedData) {
     int returnval = 0;
@@ -193,24 +292,35 @@ public class HashMap<E> { // extends HashSet<E> {
     } else if (unformattedData instanceof Integer) {
       returnval = (((Integer) unformattedData).intValue() & 0x7FFFFFFF);
     } else {
-      throw new IllegalArgumentException(unformattedData.getClass().getSimpleName() + " isn't an allowed type.");
+      throw new IllegalArgumentException(
+          unformattedData.getClass().getSimpleName() + " isn't an allowed type.");
     }
     return returnval % this.capacity; // Ensure the returned index is within the valid range
   }
 
   public static void main(String[] args) {
-
     try {
-      LogManager.getLogManager().readConfiguration(
-          new FileInputStream("/workspaces/Computer-Science-3-Projects/other utilities/logging.properties"));
+      // CodeHS
+      FileInputStream codehs = new FileInputStream("logging.properties");
+      LogManager.getLogManager().readConfiguration(codehs);
+      LOGGER.log(Level.INFO, "Loaded on CodeHS Successfully");
     } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Could not read 'log.properties' file.", e);
+      // GH CodeSpaces
+      LOGGER.log(
+          Level.SEVERE, "Could not read 'log.properties' file from default CodeHS location.", e);
       try {
-        LogManager.getLogManager().readConfiguration(new FileInputStream("logging.properties"));
+        FileInputStream codespaces =
+            new FileInputStream(
+                "/workspaces/Computer-Science-3-Projects/other utilities/logging.properties");
+        LogManager.getLogManager().readConfiguration(codespaces);
+        LOGGER.log(Level.INFO, "Loaded on Codespace Successfully");
       } catch (IOException x) {
+        // None worked
         LOGGER.log(Level.SEVERE, "Could not read 'log.properties' file.", x);
       }
     }
+
+    LOGGER.info("Expand the console window to the full window width for the bext views.");
 
     HashMap<Integer> map = new HashMap<>(10);
     LOGGER.info("HashMap after constructor: " + map.toString());
@@ -235,7 +345,7 @@ public class HashMap<E> { // extends HashSet<E> {
     LOGGER.info("Contains value 1: " + containsValue);
 
     for (int i = 2; i <= 20; i++) {
-      if (i == 3 || i == 13 || i == 8 || i == 18) {
+      if (i == 3 || i == 13 || i == 8 || i == 18 || i == 5) {
         continue;
       }
       map.insert(i);
@@ -248,5 +358,7 @@ public class HashMap<E> { // extends HashSet<E> {
     LOGGER.info("Values for key 1: " + values.toString());
 
     LOGGER.info("HashMap ToString:\n" + map.toString());
+
+    LOGGER.info("BucketSort output" + map.bucketSort());
   }
 }
