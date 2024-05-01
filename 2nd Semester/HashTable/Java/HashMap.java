@@ -16,7 +16,6 @@ public class HashMap<E> { // extends HashSet<E> {
   private int size;
   private int capacity;
   public static Logger LOGGER = Logger.getLogger(HashMap.class.getName());
-
   /**
    * Implements a Comparator for the two types this class supports
    *
