@@ -1,3 +1,4 @@
+package Tree.Java;
 @SuppressWarnings("unchecked")
 public class BST<E extends Comparable<E>> extends Tree<E> {
 

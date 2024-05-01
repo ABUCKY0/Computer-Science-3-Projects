@@ -1,3 +1,4 @@
+package Tree.Java;
 @SuppressWarnings("unchecked")
 public class TreeNode<E> implements Comparable<TreeNode<E>> {
     E data;
