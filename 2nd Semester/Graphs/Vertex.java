@@ -5,7 +5,7 @@ import java.util.logging.*;
 
 public class Vertex {
   private String data;
-  private boolean isVisited;
+  public boolean isVisited;
   public ArrayList<Edge> edges;
 
   // logger

@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.logging.*;
 
 public class Graph {
-  private ArrayList<Vertex> vertices;
+  public ArrayList<Vertex> vertices;
 
   /** Graph Constructor */
   public Graph() {
@@ -167,6 +167,9 @@ public class Graph {
     Virginia.addConnection(Richmond, NewportNews, 70);
     Virginia.addConnection(NewportNews, VirginiaBeach, 35);
     Virginia.addConnection(VirginiaBeach, Danville, 210);
+
+    BFS path = new BFS(Virginia, Harrisonburg);
+    path.hasPath(VirginiaBeach);
 
     System.out.println(Virginia.createAdjList());
   }
