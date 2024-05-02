@@ -115,6 +115,28 @@ public class Vertex {
   }
 
   /**
+   * Checks if this Vertex has a Connection to a specified node
+   */
+  public boolean hasConnection(Vertex end) {
+    ArrayList<Vertex> connections = this.getList();
+    return connections.contains(end);
+  }
+
+  /**
+   * Gets the weight of a connection
+   * @param end
+   * @return The weight of a connection
+   */
+  public double getConnectionWeight(Vertex end) {
+    for (Edge victim: this.edges) {
+      if (victim.getEnd().getData().equals(end.getData())) {
+        return victim.getWeight();
+      }
+    }
+    return 0;
+  }
+
+  /**
    * toString
    * 
    * @return string representation of Vertex

@@ -1,10 +1,12 @@
 package Graphs;
 
 import java.util.*;
+import java.util.Arrays;
 import java.util.logging.*;
 
 public class Graph {
   public ArrayList<Vertex> vertices;
+  public static Logger LOGGER = Logger.getLogger(Vertex.class.getName());
 
   /** Graph Constructor */
   public Graph() {
@@ -84,13 +86,25 @@ public class Graph {
     city2.edges.remove(index2);
   }
 
-  // public int[][] createAdjacencyMatrix() {
-  //   double[][] adjacencyMatrix = new double[0][0];
-  // }
+  public double[][] createAdjacencyMatrix() {
+    double[][] adjacencyMatrix = new double[this.vertices.size()][this.vertices.size()];
+    for (int i = 0; i < this.vertices.size(); i++) {
+      for (int y = 0; y < this.vertices.size(); y++) {
+        boolean connect = this.vertices.get(i).hasConnection(this.vertices.get(y));
+        if (!connect) {
+          adjacencyMatrix[i][y] = 0;
+        } else {
+          adjacencyMatrix[i][y] = this.vertices.get(i).getConnectionWeight(this.vertices.get(y));
+        }
+      }
+    }
+    return adjacencyMatrix;
+  }
 
   /**
    * Creates a string adjcency list
-   * @return 
+   *
+   * @return
    */
   public String createAdjList() {
     // ArrayList<ArrayList<Vertex>> adjList = new ArrayList<ArrayList<Vertex>>();
@@ -98,16 +112,38 @@ public class Graph {
 
     for (Vertex v : this.vertices) {
       s += v.toString() + " | " + v.edges.toString();
-      s+= "\n";
+      s += "\n";
     }
     return s.toString();
   }
 
+  /** Path of Least Distance */
+  public void pathOfLeastDistance(Vertex start, Vertex end) {}
+
+  public String toString() {
+    double[][] adjMatrix = this.createAdjacencyMatrix();
+    // ArrayList<Vertex> v = tji;
+    String s = "";
+    int i = 0;
+
+    for (double[] row : adjMatrix) {
+      s += this.vertices.get(i) + " | ";
+      for (double val : row) {
+        s += val + " ";
+      }
+      s += "\n";
+      i++;
+    }
+    return s;
+  }
+
   /**
    * Static Main Method
+   *
    * @param args program run arguments
    */
   public static void main(String[] args) {
+    // ? -------------------- TESTING VERTEX, DISABLED --------------------
     // Vertex city1 = new Vertex("City1");
     // Vertex city2 = new Vertex("City2");
     // Vertex city3 = new Vertex("City3");
@@ -121,19 +157,22 @@ public class Graph {
     // g1.addVertex(city2);
     // g1.addConnection(e1);
 
+    // ! END VERTEX TESTING
+
+    // ! Map of Virginia
     // * Cities
-    Vertex Alexandria = new Vertex("Alexandria");
-    Vertex Blacksburg = new Vertex("Blacksburg");
+    Vertex Alexandria = new Vertex("Alexandria     ");
+    Vertex Blacksburg = new Vertex("Blacksburg     ");
     Vertex Charlottesville = new Vertex("Charlottesville");
-    Vertex Danville = new Vertex("Danville");
-    Vertex Fredricksburg = new Vertex("Fredricksburg");
-    Vertex Harrisonburg = new Vertex("Harrisonburg");
-    Vertex Lynchburg = new Vertex("Lynchburg");
-    Vertex NewportNews = new Vertex("Newport News");
-    Vertex Richmond = new Vertex("Richmond");
-    Vertex Roanoke = new Vertex("Roanoke");
-    Vertex VirginiaBeach = new Vertex("VirginiaBeach");
-    
+    Vertex Danville = new Vertex("Danville       ");
+    Vertex Fredricksburg = new Vertex("Fredricksburg  ");
+    Vertex Harrisonburg = new Vertex("Harrisonburg   ");
+    Vertex Lynchburg = new Vertex("Lynchburg      ");
+    Vertex NewportNews = new Vertex("Newport News   ");
+    Vertex Richmond = new Vertex("Richmond       ");
+    Vertex Roanoke = new Vertex("Roanoke        ");
+    Vertex VirginiaBeach = new Vertex("VirginiaBeach  ");
+
     // * Making an ArrayList to pass into the Virginia Graph
     ArrayList<Vertex> vv = new ArrayList<Vertex>();
     vv.add(Alexandria);
@@ -148,7 +187,6 @@ public class Graph {
     vv.add(Roanoke);
     vv.add(VirginiaBeach);
 
-    
     Graph Virginia = new Graph(vv);
 
     // * Edges
@@ -169,9 +207,14 @@ public class Graph {
     Virginia.addConnection(VirginiaBeach, Danville, 210);
 
     BFS path = new BFS(Virginia, Harrisonburg);
-    path.hasPath(VirginiaBeach);
+    LOGGER.info("path.hasPath(): " + path.hasPath(VirginiaBeach));
 
-    System.out.println(Virginia.createAdjList());
+    // LOGGER.info(Virginia.createAdjList());
+    // LOGGER.info("\n"+Arrays.deepToString(Virginia.createAdjacencyMatrix()).replace("],",
+    // "],\n"));
+    System.out.println(
+        "\n" + Arrays.deepToString(Virginia.createAdjacencyMatrix()).replace("],", "],\n"));
+    System.out.println("\n\n");
+    System.out.println(Virginia);
   }
-  ;
 }

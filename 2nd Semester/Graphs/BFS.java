@@ -2,10 +2,12 @@ package Graphs;
 
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.logging.*;
 public class BFS { // 🍞th 1️⃣st 🔍
   private Graph map;
   private Vertex v;
   private Queue<Vertex> queue;
+  public static Logger LOGGER = Logger.getLogger(Vertex.class.getName());
 
   public BFS(Graph graph, Vertex start) {
     this.map = graph;
@@ -17,10 +19,10 @@ public class BFS { // 🍞th 1️⃣st 🔍
   public boolean hasPath(Vertex end) {
     while (this.queue.size() > 0) {
       Vertex n = this.queue.remove();
-      System.out.print(n + "->");
+      //System.out.print(n + "->");
       for (Vertex vertex: n.getList()) {
         if (vertex.getData().equals(end.getData())) {
-          System.out.println(end);
+          //System.out.println(end);
           vertex.isVisited = true;
           return true;
         }
