@@ -206,7 +206,7 @@ public class Graph {
     Virginia.addConnection(NewportNews, VirginiaBeach, 35);
     Virginia.addConnection(VirginiaBeach, Danville, 210);
 
-    BFS path = new BFS(Virginia, Harrisonburg);
+    PLD path = new PLD(Virginia, Harrisonburg);
     LOGGER.info("path.hasPath(): " + path.hasPath(VirginiaBeach));
 
     // LOGGER.info(Virginia.createAdjList());

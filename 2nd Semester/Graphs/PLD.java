@@ -3,13 +3,13 @@ package Graphs;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.logging.*;
-public class BFS { // 🍞th 1️⃣st 🔍
+public class PLD { // 🍞th 1️⃣st 🔍
   private Graph map;
   private Vertex v;
   private Queue<Vertex> queue;
   public static Logger LOGGER = Logger.getLogger(Vertex.class.getName());
 
-  public BFS(Graph graph, Vertex start) {
+  public PLD(Graph graph, Vertex start) {
     this.map = graph;
     this.queue = new LinkedList<Vertex>();
     queue.add(start);
