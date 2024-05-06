@@ -117,7 +117,23 @@ public class Graph {
     return s.toString();
   }
 
-  /** Path of Least Distance */
+  
+  /**
+   * Returns the index of a vertex in the graph
+   * @param city vertex to find
+   */
+  public int indexOf(Vertex city){
+    int index = -1;
+    for(Vertex v: this.vertices){
+        index += 1;
+        if(v.getData().equals(city.getData()))
+            return index;
+    }
+    
+    return index;
+}
+
+
   public void pathOfLeastDistance(Vertex start, Vertex end) {}
 
   public String toString() {
