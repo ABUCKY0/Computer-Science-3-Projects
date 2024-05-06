@@ -3,6 +3,7 @@ package Graphs;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.util.logging.*;
+import java.util.ArrayList;
 public class PLD { // 🍞th 1️⃣st 🔍
   private Graph map;
   private Vertex v;
@@ -34,4 +35,15 @@ public class PLD { // 🍞th 1️⃣st 🔍
     }
     return false;
   }
+
+  public ArrayList<Vertex> getNeighbors(Vertex start){
+    ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
+    int index = this.map.indexOf(start);
+    double[][] adj = this.map.createAdjacencyMatrix();
+    for(int i=0; i<start.edges.size(); i++){
+        if(adj[index][i] !=0)
+            neighbors.add(this.map.vertices.get(i));
+    }
+    return neighbors;
+}
 }
