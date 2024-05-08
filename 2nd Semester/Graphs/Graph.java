@@ -1,7 +1,6 @@
 package Graphs;
 
 import java.util.*;
-import java.util.Arrays;
 import java.util.logging.*;
 
 public class Graph {
@@ -117,22 +116,20 @@ public class Graph {
     return s.toString();
   }
 
-  
   /**
    * Returns the index of a vertex in the graph
+   *
    * @param city vertex to find
    */
-  public int indexOf(Vertex city){
+  public int indexOf(Vertex city) {
     int index = -1;
-    for(Vertex v: this.vertices){
-        index += 1;
-        if(v.getData().equals(city.getData()))
-            return index;
+    for (Vertex v : this.vertices) {
+      index += 1;
+      if (v.getData().equals(city.getData())) {return index;}
     }
-    
-    return index;
-}
 
+    return index;
+  }
 
   public void pathOfLeastDistance(Vertex start, Vertex end) {}
 
@@ -206,31 +203,35 @@ public class Graph {
     Graph Virginia = new Graph(vv);
 
     // * Edges
-    Virginia.addConnection(Harrisonburg, Blacksburg, 140);
-    Virginia.addConnection(Harrisonburg, Alexandria, 135);
-    Virginia.addConnection(Harrisonburg, Charlottesville, 50);
-    Virginia.addConnection(Blacksburg, Roanoke, 40);
-    Virginia.addConnection(Roanoke, Lynchburg, 65);
-    Virginia.addConnection(Lynchburg, Charlottesville, 70);
-    Virginia.addConnection(Charlottesville, Richmond, 70);
-    Virginia.addConnection(Richmond, Fredricksburg, 60);
-    Virginia.addConnection(Fredricksburg, Alexandria, 50);
-    Virginia.addConnection(Richmond, Lynchburg, 110);
-    Virginia.addConnection(Lynchburg, Danville, 70);
-    Virginia.addConnection(Danville, Richmond, 145);
-    Virginia.addConnection(Richmond, NewportNews, 70);
-    Virginia.addConnection(NewportNews, VirginiaBeach, 35);
-    Virginia.addConnection(VirginiaBeach, Danville, 210);
-
-    PLD path = new PLD(Virginia, Harrisonburg);
-    LOGGER.info("path.hasPath(): " + path.hasPath(VirginiaBeach));
+    Virginia.addConnection(Harrisonburg, Blacksburg, 140.0);
+    Virginia.addConnection(Harrisonburg, Alexandria, 135.0);
+    Virginia.addConnection(Harrisonburg, Charlottesville, 50.0);
+    Virginia.addConnection(Blacksburg, Roanoke, 40.0);
+    Virginia.addConnection(Roanoke, Lynchburg, 65.0);
+    Virginia.addConnection(Lynchburg, Charlottesville, 70.0);
+    Virginia.addConnection(Charlottesville, Richmond, 70.0);
+    Virginia.addConnection(Richmond, Fredricksburg, 60.0);
+    Virginia.addConnection(Fredricksburg, Alexandria, 50.0);
+    Virginia.addConnection(Richmond, Lynchburg, 110.0);
+    Virginia.addConnection(Lynchburg, Danville, 70.0);
+    Virginia.addConnection(Danville, Richmond, 145.0);
+    Virginia.addConnection(Richmond, NewportNews, 70.0);
+    Virginia.addConnection(NewportNews, VirginiaBeach, 35.0);
+    Virginia.addConnection(VirginiaBeach, Danville, 210.0);
 
     // LOGGER.info(Virginia.createAdjList());
     // LOGGER.info("\n"+Arrays.deepToString(Virginia.createAdjacencyMatrix()).replace("],",
     // "],\n"));
-    System.out.println(
-        "\n" + Arrays.deepToString(Virginia.createAdjacencyMatrix()).replace("],", "],\n"));
-    System.out.println("\n\n");
-    System.out.println(Virginia);
+    // System.out.println(
+    //     "\n" + Arrays.deepToString(Virginia.createAdjacencyMatrix()).replace("],", "],\n"));
+    // System.out.println("\n\n");
+    // System.out.println(Virginia);
+
+    // * Path of Least Distance
+
+    PLD path = new PLD(Virginia, Harrisonburg);
+    //LOGGER.info("path.hasPath(): " + path.hasPath(VirginiaBeach));
+
+    LOGGER.info("path.toString():\n" + path.toString());
   }
 }

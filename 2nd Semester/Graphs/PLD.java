@@ -49,13 +49,18 @@ public class PLD { // 🍞th 1️⃣st 🔍
   }
 
   public void updateNeighbors() {
-      for (Vertex vert : this.map.vertices) {
-        int v = map.indexOf(vert);
-        if (!vert.isVisited
-            && this.adjMatrix[this.row][v] != 0
-            && (this.distance[this.row] + this.adjMatrix[this.row][v] < this.distance[v]))
-          distance[v] = distance[this.row] + this.adjMatrix[this.row][v];
+    for (Vertex vert : this.map.vertices) {
+      int v = map.indexOf(vert);
+      System.out.println("v" + v);
+      System.out.println("this.row"+this.row);
+      if (this.row > this.map.createAdjacencyMatrix().length - 1) {
+        continue;
       }
+      if (!vert.isVisited
+          && this.adjMatrix[this.row][v] != 0
+          && (this.distance[this.row] + this.adjMatrix[this.row][v] < this.distance[v]))
+        distance[v] = distance[this.row] + this.adjMatrix[this.row][v];
+    }
   }
 
   public ArrayList<Vertex> getNeighbors(Vertex start) {
@@ -69,26 +74,25 @@ public class PLD { // 🍞th 1️⃣st 🔍
   }
 
   public int findSource() {
-    return this.map.indexOf(start);
+    return this.map.indexOf(this.start);
   }
 
   public int findMinDistance() {
     double minDistance = Double.MAX_VALUE;
-    int minDistanceVertex = -1;
+    int minDistanceVertex = 0;
     int i = 0;
     for (Vertex v : this.map.vertices) {
       if (!v.isVisited && distance[i] < minDistance) {
         minDistance = distance[i];
         minDistanceVertex = i;
       }
-      i++;
+      i += 1;
     }
     return minDistanceVertex;
   }
 
   public void findPLD() {
     int src = findSource();
-    double u = -1;
     int i = 0;
     for (Vertex v : this.map.vertices) {
       v.isVisited = false;
@@ -98,7 +102,7 @@ public class PLD { // 🍞th 1️⃣st 🔍
 
     // Distance of Self Loop is 0
     this.distance[src] = 0;
-    for (Vertex v: this.map.vertices)  {
+    for (Vertex v : this.map.vertices) {
       // Update Distance between neighboring vertex and source
       this.row = findMinDistance();
       v.isVisited = true;
@@ -106,5 +110,19 @@ public class PLD { // 🍞th 1️⃣st 🔍
       // Update all neighboring vertex distances
       this.updateNeighbors();
     }
+  }
+
+  /**
+   * Returns the Path of Least distance from the start to each node
+   *
+   * @return String representation of the Path of Least Distance
+   */
+  public String toString() {
+    String s = "";
+    this.findPLD();
+    for (int i = 0; i < this.distance.length; i++) {
+      s += this.map.vertices.get(i) + " | " + this.distance[i] + "\n";
+    }
+    return s;
   }
 }
