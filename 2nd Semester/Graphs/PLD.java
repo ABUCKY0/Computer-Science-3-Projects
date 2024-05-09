@@ -11,22 +11,24 @@ public class PLD { // 🍞th 1️⃣st 🔍
   private Queue<Vertex> queue;
   public static Logger LOGGER = Logger.getLogger(Vertex.class.getName());
   private double[] distance;
-  private int row;
-  private int col;
-
+  private int u;
+  private int count;
   private double adjMatrix[][];
+  private ArrayList<Vertex> vertices;
+  private boolean[] visitedVertex;
 
   /** */
   public PLD(Graph graph, Vertex start) {
-    this.map = graph;
-    this.queue = new LinkedList<Vertex>();
-    queue.add(start);
-    start.isVisited = true;
     this.start = start;
-    this.distance = new double[graph.vertices.size()];
-    this.row = graph.createAdjacencyMatrix().length;
-    this.col = graph.createAdjacencyMatrix()[0].length;
-    this.adjMatrix = graph.createAdjacencyMatrix();
+    this.map = graph;
+    this.vertices = this.map.vertices;
+    this.adjMatrix = this.map.createAdjacencyMatrix();
+    this.queue = new LinkedList<Vertex>();
+    queue.add(this.start);
+    this.count = this.vertices.size();
+    this.distance = new double[this.count];
+    this.visitedVertex = new boolean[this.count];
+    start.isVisited = true;
   }
 
   public boolean hasPath(Vertex end) {
@@ -48,20 +50,13 @@ public class PLD { // 🍞th 1️⃣st 🔍
     return false;
   }
 
-  public void updateNeighbors() {
-    for (Vertex vert : this.map.vertices) {
-      int v = map.indexOf(vert);
-      System.out.println("v" + v);
-      System.out.println("this.row"+this.row);
-      if (this.row > this.map.createAdjacencyMatrix().length - 1) {
-        continue;
+  public void updateNeighbors(){
+        
+    for (int v = 0; v < count; v++) {
+            if (!this.visitedVertex[v] && this.adjMatrix[this.u][v] != 0 && (this.distance[this.u] + this.adjMatrix[this.u][v] < this.distance[v])) 
+            distance[v] = distance[this.u] + this.adjMatrix[this.u][v];
       }
-      if (!vert.isVisited
-          && this.adjMatrix[this.row][v] != 0
-          && (this.distance[this.row] + this.adjMatrix[this.row][v] < this.distance[v]))
-        distance[v] = distance[this.row] + this.adjMatrix[this.row][v];
-    }
-  }
+}
 
   public ArrayList<Vertex> getNeighbors(Vertex start) {
     ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
@@ -77,38 +72,34 @@ public class PLD { // 🍞th 1️⃣st 🔍
     return this.map.indexOf(this.start);
   }
 
-  public int findMinDistance() {
+  public int findMinDistance(){
     double minDistance = Double.MAX_VALUE;
-    int minDistanceVertex = 0;
-    int i = 0;
-    for (Vertex v : this.map.vertices) {
-      if (!v.isVisited && distance[i] < minDistance) {
-        minDistance = distance[i];
-        minDistanceVertex = i;
-      }
-      i += 1;
-    }
-    return minDistanceVertex;
+    int minDistanceVertex = -1;
+    for (int i = 0; i < this.distance.length; i++) {
+        if (!visitedVertex[i] && distance[i] < minDistance) {
+            minDistance = distance[i];
+            minDistanceVertex = i;
   }
+}
+    return minDistanceVertex;
+}
 
-  public void findPLD() {
+  public void findPLD() { // the method that does all the work of finding the PLD
     int src = findSource();
-    int i = 0;
-    for (Vertex v : this.map.vertices) {
-      v.isVisited = false;
+    for (int i = 0; i < this.count; i++) {
+      visitedVertex[i] = false;
       distance[i] = Double.MAX_VALUE;
-      i++;
     }
-
-    // Distance of Self Loop is 0
+    // Distance of self loop is zero
     this.distance[src] = 0;
-    for (Vertex v : this.map.vertices) {
-      // Update Distance between neighboring vertex and source
-      this.row = findMinDistance();
-      v.isVisited = true;
+    for (int i = 0; i < this.count; i++) {
 
-      // Update all neighboring vertex distances
-      this.updateNeighbors();
+      // Update the distance between neighbouring vertex and source vertex
+      this.u = findMinDistance();
+      visitedVertex[u] = true;
+
+      // Update all the neighbouring vertex distances
+      updateNeighbors();
     }
   }
 
