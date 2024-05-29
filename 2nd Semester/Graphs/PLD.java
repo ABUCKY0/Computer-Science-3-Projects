@@ -7,7 +7,7 @@ import java.util.logging.*;
 
 public class PLD { // 🍞th 1️⃣st 🔍
   private Graph map;
-  private Vertex start;
+  public Vertex start;
   private Queue<Vertex> queue;
   public static Logger LOGGER = Logger.getLogger(Vertex.class.getName());
   private double[] distance;
@@ -17,7 +17,12 @@ public class PLD { // 🍞th 1️⃣st 🔍
   private ArrayList<Vertex> vertices;
   private boolean[] visitedVertex;
 
-  /** */
+  /**
+   * PLD Constructor
+   *
+   * @param graph Graph to perform the PLD on
+   * @param start the starting node
+   */
   public PLD(Graph graph, Vertex start) {
     this.start = start;
     this.map = graph;
@@ -31,6 +36,12 @@ public class PLD { // 🍞th 1️⃣st 🔍
     start.isVisited = true;
   }
 
+  /**
+   * Checks if there is a path from this.start to the end node
+   *
+   * @param end The end Vertex
+   * @return boolean true if there is a path, false otherwise
+   */
   public boolean hasPath(Vertex end) {
     while (this.queue.size() > 0) {
       Vertex n = this.queue.remove();
@@ -50,14 +61,24 @@ public class PLD { // 🍞th 1️⃣st 🔍
     return false;
   }
 
-  public void updateNeighbors(){
-        
-    for (int v = 0; v < count; v++) {
-            if (!this.visitedVertex[v] && this.adjMatrix[this.u][v] != 0 && (this.distance[this.u] + this.adjMatrix[this.u][v] < this.distance[v])) 
-            distance[v] = distance[this.u] + this.adjMatrix[this.u][v];
-      }
-}
+  /**
+   * Update the distance array with distances
+   */
+  public void updateNeighbors() {
 
+    for (int v = 0; v < count; v++) {
+      if (!this.visitedVertex[v]
+          && this.adjMatrix[this.u][v] != 0
+          && (this.distance[this.u] + this.adjMatrix[this.u][v] < this.distance[v]))
+        distance[v] = distance[this.u] + this.adjMatrix[this.u][v];
+    }
+  }
+
+  /**
+   * Gets the neighbors of a vertex
+   * @param start Vertex to get the neighbors for
+   * @return the neighbors
+   */
   public ArrayList<Vertex> getNeighbors(Vertex start) {
     ArrayList<Vertex> neighbors = new ArrayList<Vertex>();
     int index = this.map.indexOf(start);
@@ -68,21 +89,26 @@ public class PLD { // 🍞th 1️⃣st 🔍
     return neighbors;
   }
 
+  /**
+   * Finds the index of this.start
+   * @return int index of this.start in the map
+   */
   public int findSource() {
     return this.map.indexOf(this.start);
   }
 
-  public int findMinDistance(){
+  
+  public int findMinDistance() {
     double minDistance = Double.MAX_VALUE;
     int minDistanceVertex = -1;
     for (int i = 0; i < this.distance.length; i++) {
-        if (!visitedVertex[i] && distance[i] < minDistance) {
-            minDistance = distance[i];
-            minDistanceVertex = i;
-  }
-}
+      if (!visitedVertex[i] && distance[i] < minDistance) {
+        minDistance = distance[i];
+        minDistanceVertex = i;
+      }
+    }
     return minDistanceVertex;
-}
+  }
 
   public void findPLD() { // the method that does all the work of finding the PLD
     int src = findSource();

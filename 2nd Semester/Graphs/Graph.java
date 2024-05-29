@@ -1,5 +1,7 @@
 package Graphs;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.*;
 
@@ -125,7 +127,9 @@ public class Graph {
     int index = -1;
     for (Vertex v : this.vertices) {
       index += 1;
-      if (v.getData().equals(city.getData())) {return index;}
+      if (v.getData().equals(city.getData())) {
+        return index;
+      }
     }
 
     return index;
@@ -156,6 +160,26 @@ public class Graph {
    * @param args program run arguments
    */
   public static void main(String[] args) {
+    try {
+      // CodeHS
+      FileInputStream codehs = new FileInputStream("logging.properties");
+      LogManager.getLogManager().readConfiguration(codehs);
+      LOGGER.log(Level.INFO, "Loaded on CodeHS Successfully");
+    } catch (IOException e) {
+      // GH CodeSpaces
+      LOGGER.log(
+          Level.SEVERE, "Could not read 'log.properties' file from default CodeHS location.", e);
+      try {
+        FileInputStream codespaces =
+            new FileInputStream(
+                "/workspaces/Computer-Science-3-Projects/other utilities/logging.properties");
+        LogManager.getLogManager().readConfiguration(codespaces);
+        LOGGER.log(Level.INFO, "Loaded on Codespace Successfully");
+      } catch (IOException x) {
+        // None worked
+        LOGGER.log(Level.SEVERE, "Could not read 'log.properties' file.", x);
+      }
+    }
     // ? -------------------- TESTING VERTEX, DISABLED --------------------
     // Vertex city1 = new Vertex("City1");
     // Vertex city2 = new Vertex("City2");
@@ -227,11 +251,18 @@ public class Graph {
     // System.out.println("\n\n");
     // System.out.println(Virginia);
 
-    // * Path of Least Distance
+    // ? Logging
+
+    System.out.println("\n\n\n");
 
     PLD path = new PLD(Virginia, Harrisonburg);
-    //LOGGER.info("path.hasPath(): " + path.hasPath(VirginiaBeach));
-
+    LOGGER.info("path.hasPath(): " + path.hasPath(VirginiaBeach));
+    for (Vertex v : Virginia.vertices) {
+      System.out.print(v.getData() + " to " + path.start.getData());
+      path.hasPath(v);
+      System.out.println();
+    }
+    System.out.println("\n\n\n");;
     LOGGER.info("path.toString():\n" + path.toString());
   }
 }
